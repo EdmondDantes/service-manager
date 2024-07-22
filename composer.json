@@ -1,0 +1,17 @@
+{
+    "name": "ifcastle/service-manager",
+    "description": "A library that allows organizing code according to the Services pattern.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["services"],
+    "autoload": {
+        "psr-4": {
+            "IfCastle\\ServiceManager\\": "src/"
+        }
+    },
+    "require": {
+        "ifcastle/exceptions": "^5.0",
+        "ifcastle/type-definitions": "^0.5.0",
+        "ifcastle/di": "^0.5.0"
+    }
+}
