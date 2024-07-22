@@ -3,16 +3,11 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
-interface ServiceLocatorInterface
+interface ServiceLocatorInterface   extends DescriptorRepositoryInterface
 {
     public function getServiceList(bool $shouldUpdate = false): array;
-    
-    public function findServiceClass(string $serviceName): ?string;
     
     public function findService(string $serviceName): ?object;
     
     public function getService(string $serviceName): object;
-    
-    public function findServiceDescriptor(string $serviceName): ?ServiceDescriptorInterface;
-    public function getServiceDescriptor(string $serviceName): ServiceDescriptorInterface;
 }

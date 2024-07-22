@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
-interface ServiceDescriptorInterface
+use IfCastle\DI\DependencyInterface;
+
+interface ServiceDescriptorInterface extends DependencyInterface
 {
-    
+    public function getServiceName(): string;
 }
