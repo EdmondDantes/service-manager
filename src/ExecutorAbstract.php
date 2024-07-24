@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DI\ContainerInterface;
+use IfCastle\DI\InjectableInterface;
 use IfCastle\ServiceManager\Exceptions\ServiceException;
 use IfCastle\TypeDefinitions\TypeInternal;
 use IfCastle\TypeDefinitions\Value\ValueContainerInterface;
@@ -23,6 +25,7 @@ abstract class ExecutorAbstract     implements ExecutorInterface
     }
  
     protected ServiceTracerInterface|null $tracer       = null;
+    protected ContainerInterface|null $systemEnvironment = null;
     
     public function executeCommand(
         string|CommandDescriptorInterface $service,
@@ -67,7 +70,10 @@ abstract class ExecutorAbstract     implements ExecutorInterface
             $parameterName          = $definition->getName();
             $isParameterExists      = array_key_exists($parameterName, $parameters);
             
-            if(false === $isParameterExists && $parameter->fromEnv() !== null) {
+            if($parameter->getResolver() !== null) {
+                $normalized[$parameterName] = $this->resolveParameter($parameter);
+                continue;
+            } elseif($parameter->fromEnv() !== null) {
                 
                 $value              = $this->extractParameterFromEnv($parameter);
                 
@@ -90,18 +96,16 @@ abstract class ExecutorAbstract     implements ExecutorInterface
                 
                 if($parameter->isDefaultValueAvailable()) {
                     $normalized[$parameterName] = $parameter->getDefaultValue();
-                    continue;
                 }
                 
                 if($definition->isNullable()) {
                     $normalized[$parameterName] = null;
-                    continue;
                 }
                 
                 continue;
             }
             
-            if($definition instanceof TypeInternal || $parameters[$parameterName] instanceof SerializableI) {
+            if(is_object($parameters[$parameterName]) || $definition instanceof TypeInternal) {
                 $normalized[$parameterName] = $parameters[$parameterName];
             } else {
                 $normalized[$parameterName] = $definition->decode($parameters[$parameterName]);
@@ -111,14 +115,29 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         return $normalized;
     }
     
-    protected function extractParameterFromEnv(ParameterDescriptor $parameter): mixed
+    protected function resolveParameter(ParameterDescriptorInterface $parameter): mixed
+    {
+        $resolver                   = $parameter->getResolver();
+        
+        if($resolver === null) {
+            return null;
+        }
+        
+        if($resolver instanceof InjectableInterface) {
+            return $resolver->injectDependencies($this->systemEnvironment)->initializeAfterInject();
+        }
+        
+        return $resolver($parameter);
+    }
+    
+    protected function extractParameterFromEnv(ParameterDescriptorInterface $parameter): mixed
     {
         $fromEnv            = $parameter->fromEnv();
         $env                = $this->systemEnvironment;
         $key                = $fromEnv->key ?? $parameter->getName();
         
-        if($fromEnv->fromRequest) {
-            $env            = $this->systemEnvironment->getRequestEnvironment();
+        if($fromEnv->fromRequestEnv) {
+            $env            = $this->getRequestEnv();
         }
         
         if($env === null) {
@@ -131,15 +150,11 @@ abstract class ExecutorAbstract     implements ExecutorInterface
                 return null;
             }
             
-            $env            = $env->getDependency($fromEnv->factory);
+            $env            = $env->findDependency($fromEnv->factory);
         }
         
-        if(false === $fromEnv->asDependency && $env instanceof EnvironmentI) {
-            return $env->get($key);
-        }
-        
-        if($env instanceof LocatorI && $env->hasDependency($key)) {
-            return $env->getDependency($key);
+        if($env instanceof ContainerInterface && $env->hasDependency($key)) {
+            return $env->resolveDependency($key);
         }
         
         return null;
@@ -185,6 +200,11 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         string                     $command,
         array                      $parameters
     ): ValueContainerInterface|null
+    {
+        return null;
+    }
+    
+    protected function getRequestEnv(): ContainerInterface|null
     {
         return null;
     }
