@@ -111,7 +111,7 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         return $normalized;
     }
     
-    protected function extractParameterFromEnv(ParameterDescriptorI $parameter): mixed
+    protected function extractParameterFromEnv(ParameterDescriptor $parameter): mixed
     {
         $fromEnv            = $parameter->fromEnv();
         $env                = $this->systemEnvironment;
@@ -145,9 +145,15 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         return null;
     }
     
-    protected function runCommand(object $service, ServiceDescriptorInterface $serviceDescriptor, string $method, array $parameters, string $serviceName): mixed
+    protected function runCommand(
+        object                     $service,
+        ServiceDescriptorInterface $serviceDescriptor,
+        string                     $method,
+        array                      $parameters,
+        string                     $serviceName
+    ): mixed
     {
-        $this->tracer?->startServiceCall($serviceName, $method, $parameters);
+        $this->tracer?->startServiceCall($serviceName, $serviceDescriptor, $method, $parameters);
         
         try {
             
@@ -165,7 +171,12 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         }
     }
     
-    protected function checkAccess(object $serviceObject, ServiceDescriptorInterface $serviceDescriptor, string $service, string $command): void {}
+    protected function checkAccess(
+        object                     $serviceObject,
+        ServiceDescriptorInterface $serviceDescriptor,
+        string                     $service,
+        string                     $command
+    ): void {}
     
     protected function tryRunningAsJob(
         ServiceDescriptorInterface $serviceDescriptor,
