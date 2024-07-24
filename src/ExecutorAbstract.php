@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DI\AutoResolverInterface;
 use IfCastle\DI\ContainerInterface;
 use IfCastle\DI\InjectableInterface;
 use IfCastle\ServiceManager\Exceptions\ServiceException;
@@ -123,8 +124,8 @@ abstract class ExecutorAbstract     implements ExecutorInterface
             return null;
         }
         
-        if($resolver instanceof InjectableInterface) {
-            return $resolver->injectDependencies($this->systemEnvironment)->initializeAfterInject();
+        if($resolver instanceof AutoResolverInterface) {
+            return $resolver->resolveDependencies($this->systemEnvironment);
         }
         
         return $resolver($parameter);

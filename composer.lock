@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "ifcastle/di",
-            "version": "v0.5.0",
+            "version": "v0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/di.git",
-                "reference": "685fc921436dd013e8016cfe8775fff317bb41e0"
+                "reference": "5f2831af39b140c0c352d42ceab66683c405f910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/di/zipball/685fc921436dd013e8016cfe8775fff317bb41e0",
-                "reference": "685fc921436dd013e8016cfe8775fff317bb41e0",
+                "url": "https://api.github.com/repos/EdmondDantes/di/zipball/5f2831af39b140c0c352d42ceab66683c405f910",
+                "reference": "5f2831af39b140c0c352d42ceab66683c405f910",
                 "shasum": ""
             },
             "require": {
@@ -54,9 +54,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/di/issues",
-                "source": "https://github.com/EdmondDantes/di/tree/v0.5.0"
+                "source": "https://github.com/EdmondDantes/di/tree/v0.5.1"
             },
-            "time": "2024-07-15T08:12:14+00:00"
+            "time": "2024-07-24T05:13:46+00:00"
         },
         {
             "name": "ifcastle/exceptions",
@@ -157,5 +157,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
