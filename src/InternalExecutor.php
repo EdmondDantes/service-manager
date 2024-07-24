@@ -3,9 +3,24 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
-final readonly class InternalExecutor extends ExecutorAbstract
+use IfCastle\DI\ContainerInterface;
+
+final class InternalExecutor        extends ExecutorAbstract
 {
-    public function __construct(private ServiceLocatorInterface $publicLocator, private ServiceLocatorInterface $internalLocator) {}
+    public function __construct(
+        private readonly ServiceLocatorInterface $publicLocator,
+        private readonly ServiceLocatorInterface $internalLocator,
+        ContainerInterface $systemEnvironment = null,
+        AccessCheckerInterface $accessChecker = null,
+        TaskRunnerInterface $taskRunner = null,
+        ServiceTracerInterface $tracer = null
+    )
+    {
+        $this->systemEnvironment    = $systemEnvironment;
+        $this->accessChecker        = $accessChecker;
+        $this->taskRunner           = $taskRunner;
+        $this->tracer               = $tracer;
+    }
     
     protected function resolveService(string $serviceName): array
     {

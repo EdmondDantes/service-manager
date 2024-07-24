@@ -5,7 +5,6 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\DI\AutoResolverInterface;
 use IfCastle\DI\ContainerInterface;
-use IfCastle\DI\InjectableInterface;
 use IfCastle\ServiceManager\Exceptions\ServiceException;
 use IfCastle\TypeDefinitions\TypeInternal;
 use IfCastle\TypeDefinitions\Value\ValueContainerInterface;
@@ -27,6 +26,8 @@ abstract class ExecutorAbstract     implements ExecutorInterface
  
     protected ServiceTracerInterface|null $tracer       = null;
     protected ContainerInterface|null $systemEnvironment = null;
+    protected AccessCheckerInterface|null $accessChecker = null;
+    protected TaskRunnerInterface|null $taskRunner = null;
     
     public function executeCommand(
         string|CommandDescriptorInterface $service,
@@ -44,12 +45,11 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         self::throwIfServiceNameInvalid($service);
         
         [$serviceObject, $serviceDescriptor] = $this->resolveService($service);
-        
-        $this->checkAccess($serviceObject, $serviceDescriptor, $service, $command);
-        
         $methodDescriptor           = $serviceDescriptor->getServiceMethod($command);
+        
+        $this->accessChecker?->checkAccess($serviceObject, $serviceDescriptor, $methodDescriptor, $service, $command);
 
-        if(($job = $this->tryRunningAsJob($serviceDescriptor, $methodDescriptor, $service, $command, $parameters)) !== null) {
+        if(($job = $this->taskRunner?->tryRunningAsTask($serviceDescriptor, $methodDescriptor, $service, $command, $parameters)) !== null) {
             return $job;
         }
         
@@ -185,24 +185,6 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         } finally {
             $this->tracer?->end();
         }
-    }
-    
-    protected function checkAccess(
-        object                     $serviceObject,
-        ServiceDescriptorInterface $serviceDescriptor,
-        string                     $service,
-        string                     $command
-    ): void {}
-    
-    protected function tryRunningAsJob(
-        ServiceDescriptorInterface $serviceDescriptor,
-        MethodDescriptorInterface  $methodDescriptor,
-        string                     $service,
-        string                     $command,
-        array                      $parameters
-    ): ValueContainerInterface|null
-    {
-        return null;
     }
     
     protected function getRequestEnv(): ContainerInterface|null
