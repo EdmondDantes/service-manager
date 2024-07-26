@@ -16,8 +16,8 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
      * @param string            $serviceName
      * @param ResolverInterface $resolver
      *
-     * @throws ServiceException
      * @throws \ReflectionException
+     * @throws TypeUnresolved
      */
     public function __construct(object|string $service, string $serviceName, ResolverInterface $resolver)
     {
