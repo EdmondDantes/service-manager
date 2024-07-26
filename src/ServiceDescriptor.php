@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace IfCastle\ServiceManager;
 
 use IfCastle\ServiceManager\Exceptions\MethodNotFound;
+use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 
 class ServiceDescriptor             implements ServiceDescriptorInterface
 {
@@ -61,13 +62,13 @@ class ServiceDescriptor             implements ServiceDescriptorInterface
     }
     
     #[\Override]
-    public function findServiceMethod(string $method): ?MethodDescriptorInterface
+    public function findServiceMethod(string $method): ?FunctionDescriptorInterface
     {
         return $this->methods[$method] ?? null;
     }
     
     #[\Override]
-    public function getServiceMethod(string $method): MethodDescriptorInterface
+    public function getServiceMethod(string $method): FunctionDescriptorInterface
     {
         return $this->methods[$method] ?? throw new MethodNotFound($this->serviceName, $method);
     }

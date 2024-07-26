@@ -6,6 +6,9 @@ namespace IfCastle\ServiceManager;
 use IfCastle\DI\AutoResolverInterface;
 use IfCastle\DI\ContainerInterface;
 use IfCastle\ServiceManager\Exceptions\ServiceException;
+use IfCastle\TypeDefinitions\DefinitionInterface;
+use IfCastle\TypeDefinitions\FromEnv;
+use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 use IfCastle\TypeDefinitions\TypeInternal;
 use IfCastle\TypeDefinitions\Value\ValueContainerInterface;
 
@@ -61,11 +64,11 @@ abstract class ExecutorAbstract     implements ExecutorInterface
     /**
      * @throws ServiceException
      */
-    protected function normalizeParameters(array $parameters, MethodDescriptorInterface $methodDescriptor): array
+    protected function normalizeParameters(array $parameters, FunctionDescriptorInterface $methodDescriptor): array
     {
         $normalized                 = [];
         
-        foreach ($methodDescriptor->getParameters() as $parameter)
+        foreach ($methodDescriptor->getArguments() as $parameter)
         {
             $definition             = $parameter->getDefinition();
             $parameterName          = $definition->getName();
@@ -88,8 +91,8 @@ abstract class ExecutorAbstract     implements ExecutorInterface
                 throw new ServiceException([
                    'template'      => 'Parameter "{parameter}" required by {service}->{method}',
                    'parameter'     => $parameterName,
-                   'service'       => $methodDescriptor->getServiceClass(),
-                   'method'        => $methodDescriptor->getMethod()
+                   'service'       => $methodDescriptor->getClassName(),
+                   'method'        => $methodDescriptor->getFunctionName()
                 ]);
             }
             
@@ -116,7 +119,7 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         return $normalized;
     }
     
-    protected function resolveParameter(ParameterDescriptorInterface $parameter): mixed
+    protected function resolveParameter(DefinitionInterface $parameter): mixed
     {
         $resolver                   = $parameter->getResolver();
         
@@ -131,9 +134,9 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         return $resolver($parameter);
     }
     
-    protected function extractParameterFromEnv(ParameterDescriptorInterface $parameter): mixed
+    protected function extractParameterFromEnv(DefinitionInterface $parameter): mixed
     {
-        $fromEnv            = $parameter->fromEnv();
+        $fromEnv            = $parameter->findAttribute(FromEnv::class);
         $env                = $this->systemEnvironment;
         $key                = $fromEnv->key ?? $parameter->getName();
         

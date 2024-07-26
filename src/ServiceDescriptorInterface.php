@@ -5,6 +5,7 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\DI\DependencyInterface;
 use IfCastle\ServiceManager\Exceptions\MethodNotFound;
+use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 
 interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInterface
 {
@@ -17,7 +18,7 @@ interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInte
     public function getServiceConfig(): array;
     
     /**
-     * @return MethodDescriptorInterface[]
+     * @return FunctionDescriptorInterface[]
      */
     public function getServiceMethods(): array;
     
@@ -26,7 +27,7 @@ interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInte
      *
      *
      */
-    public function findServiceMethod(string $method): ?MethodDescriptorInterface;
+    public function findServiceMethod(string $method): ?FunctionDescriptorInterface;
     
     /**
      * Returns method descriptor for service
@@ -34,5 +35,5 @@ interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInte
      *
      * @throws  MethodNotFound
      */
-    public function getServiceMethod(string $method): MethodDescriptorInterface;
+    public function getServiceMethod(string $method): FunctionDescriptorInterface;
 }
