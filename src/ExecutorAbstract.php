@@ -10,7 +10,6 @@ use IfCastle\TypeDefinitions\DefinitionInterface;
 use IfCastle\TypeDefinitions\FromEnv;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 use IfCastle\TypeDefinitions\TypeInternal;
-use IfCastle\TypeDefinitions\Value\ValueContainerInterface;
 
 abstract class ExecutorAbstract     implements ExecutorInterface
 {
@@ -32,6 +31,10 @@ abstract class ExecutorAbstract     implements ExecutorInterface
     protected AccessCheckerInterface|null $accessChecker = null;
     protected TaskRunnerInterface|null $taskRunner = null;
     
+    /**
+     * @throws \Throwable
+     * @throws ServiceException
+     */
     public function executeCommand(
         string|CommandDescriptorInterface $service,
         string                            $command      = null,
@@ -70,14 +73,13 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         
         foreach ($methodDescriptor->getArguments() as $parameter)
         {
-            $definition             = $parameter->getDefinition();
-            $parameterName          = $definition->getName();
+            $parameterName          = $parameter->getName();
             $isParameterExists      = array_key_exists($parameterName, $parameters);
             
             if($parameter->getResolver() !== null) {
                 $normalized[$parameterName] = $this->resolveParameter($parameter);
                 continue;
-            } elseif($parameter->fromEnv() !== null) {
+            } elseif($parameter->findAttribute(FromEnv::class) !== null) {
                 
                 $value              = $this->extractParameterFromEnv($parameter);
                 
@@ -102,17 +104,17 @@ abstract class ExecutorAbstract     implements ExecutorInterface
                     $normalized[$parameterName] = $parameter->getDefaultValue();
                 }
                 
-                if($definition->isNullable()) {
+                if($parameter->isNullable()) {
                     $normalized[$parameterName] = null;
                 }
                 
                 continue;
             }
             
-            if(is_object($parameters[$parameterName]) || $definition instanceof TypeInternal) {
+            if(is_object($parameters[$parameterName]) || $parameter instanceof TypeInternal) {
                 $normalized[$parameterName] = $parameters[$parameterName];
             } else {
-                $normalized[$parameterName] = $definition->decode($parameters[$parameterName]);
+                $normalized[$parameterName] = $parameter->decode($parameters[$parameterName]);
             }
         }
         
@@ -139,6 +141,8 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         $fromEnv            = $parameter->findAttribute(FromEnv::class);
         $env                = $this->systemEnvironment;
         $key                = $fromEnv->key ?? $parameter->getName();
+        
+        /* @var FromEnv $fromEnv */
         
         if($fromEnv->fromRequestEnv) {
             $env            = $this->getRequestEnv();
