@@ -6,12 +6,13 @@ namespace IfCastle\ServiceManager;
 use IfCastle\ServiceManager\Exceptions\ServiceConfigException;
 use IfCastle\ServiceManager\Exceptions\ServiceNotFound;
 use IfCastle\ServiceManager\RepositoryStorages\RepositoryReaderInterface;
+use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 
 class DescriptorRepository implements DescriptorRepositoryInterface
 {
     protected array|null $serviceDescriptors = null;
     
-    public function __construct(protected readonly RepositoryReaderInterface $repositoryReader) {}
+    public function __construct(protected readonly RepositoryReaderInterface $repositoryReader, protected readonly ResolverInterface $resolver) {}
     
     public function findServiceClass(string $serviceName): string|null
     {
@@ -68,6 +69,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
             $serviceDescriptors[$serviceName] = new ServiceDescriptorByReflection(
                 $serviceName,
                 $serviceConfig['class'],
+                $this->resolver,
                 true,
                 $serviceConfig
             );

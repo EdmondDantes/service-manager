@@ -15,15 +15,17 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
      * @param object|string     $service
      * @param string            $serviceName
      * @param ResolverInterface $resolver
+     * @param bool              $isActive
+     * @param array             $config
      *
-     * @throws \ReflectionException
      * @throws TypeUnresolved
+     * @throws \ReflectionException
      */
-    public function __construct(object|string $service, string $serviceName, ResolverInterface $resolver)
+    public function __construct(object|string $service, string $serviceName, ResolverInterface $resolver, bool $isActive = true, array $config = [])
     {
         $reflectionClass            = new \ReflectionClass($service);
         
-        parent::__construct($serviceName, $reflectionClass->getName());
+        parent::__construct($serviceName, $reflectionClass->getName(), isActive: $isActive, config: $config);
         
         $this->serviceName          = $serviceName;
         $this->attributes           = $this->buildAttributes($reflectionClass->getAttributes());
