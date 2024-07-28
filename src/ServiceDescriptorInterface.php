@@ -13,6 +13,13 @@ interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInte
     
     public function getClassName(): string;
     
+    /**
+     * Returns a list of interfaces that are used for binding this service.
+     *
+     * @return string[]
+     */
+    public function getBindings(): array;
+    
     public function isServiceActive(): bool;
     
     public function getServiceConfig(): array;

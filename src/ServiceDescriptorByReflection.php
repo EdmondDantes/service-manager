@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DI\Binding;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Reader\ReflectionFunctionReader;
@@ -37,6 +38,11 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
         $this->serviceName          = $serviceName;
         $this->attributes           = $this->buildAttributes($reflectionClass->getAttributes());
         $this->buildMethods($reflectionClass, $resolver);
+        
+        // calculate bindings
+        foreach ($reflectionClass->getAttributes(Binding::class) as $binding) {
+            $this->bindings        = array_merge($this->bindings, $binding->newInstance()->interfaces);
+        }
     }
 
     /**

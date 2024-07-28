@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DI\AliasInitializer;
 use IfCastle\DI\Container;
 use IfCastle\DI\ContainerInterface;
 use IfCastle\DI\DependencyInterface;
@@ -76,6 +77,15 @@ class ServiceLocator                extends Container
         }
         
         $this->container[$serviceName] = $serviceDescriptor;
+        
+        foreach ($serviceDescriptor->getBindings() as $interface) {
+            
+            if(array_key_exists($interface, $this->container)) {
+                continue;
+            }
+            
+            $this->container[$interface] = new AliasInitializer($serviceName);
+        }
         
         return parent::findDependency($serviceName);
     }

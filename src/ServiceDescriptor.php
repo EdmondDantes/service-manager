@@ -14,6 +14,7 @@ class ServiceDescriptor             implements ServiceDescriptorInterface
         protected array  $methods         = [],
         protected bool   $isActive        = true,
         protected array  $config          = [],
+        protected array  $bindings        = [],
         protected array  $dependencies    = [],
         protected array  $attributes      = []
     ) {}
@@ -36,6 +37,12 @@ class ServiceDescriptor             implements ServiceDescriptorInterface
     public function isServiceActive(): bool
     {
         return $this->isActive;
+    }
+    
+    #[\Override]
+    public function getBindings(): array
+    {
+        return $this->bindings;
     }
     
     public function getServiceConfig(): array
