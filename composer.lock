@@ -107,20 +107,25 @@
         },
         {
             "name": "ifcastle/type-definitions",
-            "version": "v0.5.3",
+            "version": "v0.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/type-definitions.git",
-                "reference": "cd630f1da8f6f115a06605f8c6c06cff1f33f335"
+                "reference": "2b46613de05594cc0a5d53534abad4d62bbec46c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/type-definitions/zipball/cd630f1da8f6f115a06605f8c6c06cff1f33f335",
-                "reference": "cd630f1da8f6f115a06605f8c6c06cff1f33f335",
+                "url": "https://api.github.com/repos/EdmondDantes/type-definitions/zipball/2b46613de05594cc0a5d53534abad4d62bbec46c",
+                "reference": "2b46613de05594cc0a5d53534abad4d62bbec46c",
                 "shasum": ""
             },
             "require": {
                 "ifcastle/exceptions": "^5.0"
+            },
+            "require-dev": {
+                "amphp/php-cs-fixer-config": "^2.1",
+                "friendsofphp/php-cs-fixer": "^3.60",
+                "phpunit/phpunit": "^11.2"
             },
             "type": "library",
             "autoload": {
@@ -144,9 +149,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/type-definitions/issues",
-                "source": "https://github.com/EdmondDantes/type-definitions/tree/v0.5.3"
+                "source": "https://github.com/EdmondDantes/type-definitions/tree/v0.5.4"
             },
-            "time": "2024-07-26T12:56:10+00:00"
+            "time": "2024-07-28T07:42:37+00:00"
         }
     ],
     "packages-dev": [

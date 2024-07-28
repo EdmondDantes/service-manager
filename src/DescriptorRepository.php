@@ -67,8 +67,8 @@ class DescriptorRepository implements DescriptorRepositoryInterface
             }
             
             $serviceDescriptors[$serviceName] = new ServiceDescriptorByReflection(
-                $serviceName,
                 $serviceConfig['class'],
+                $serviceName,
                 $this->resolver,
                 true,
                 $serviceConfig
