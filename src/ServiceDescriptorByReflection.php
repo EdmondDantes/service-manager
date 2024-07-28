@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
-use IfCastle\ServiceManager\Exceptions\ServiceException;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Reader\ReflectionFunctionReader;
@@ -17,11 +16,19 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
      * @param ResolverInterface $resolver
      * @param bool              $isActive
      * @param array             $config
+     * @param bool              $useOnlyServiceMethods
      *
      * @throws TypeUnresolved
      * @throws \ReflectionException
      */
-    public function __construct(object|string $service, string $serviceName, ResolverInterface $resolver, bool $isActive = true, array $config = [])
+    public function __construct(
+        object|string     $service,
+        string            $serviceName,
+        ResolverInterface $resolver,
+        bool              $isActive = true,
+        array             $config   = [],
+        protected readonly bool $useOnlyServiceMethods = true
+    )
     {
         $reflectionClass            = new \ReflectionClass($service);
         
@@ -39,7 +46,7 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
     {
         $functionReader             = new ReflectionFunctionReader($resolver);
         
-        foreach ($this->searchClassMethods($reflectionClass) as $method) {
+        foreach ($this->fetchClassMethods($reflectionClass) as $method) {
             $this->methods[$method->getName()] = $functionReader->extractMethodDescriptor($method, $method->getName());
         }
     }
@@ -74,7 +81,7 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
         return $result;
     }
 
-    protected function searchClassMethods(\ReflectionClass $class, array $methodReflections = []): array
+    protected function fetchClassMethods(\ReflectionClass $class, array $methodReflections = []): array
     {
         foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             
@@ -89,7 +96,7 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
             //
             // We use only those methods that are explicitly marked as service methods
             //
-            if(empty($method->getAttributes(
+            if($this->useOnlyServiceMethods && empty($method->getAttributes(
                 ServiceMethod::class, \ReflectionAttribute::IS_INSTANCEOF
             ))) {
                 continue;
@@ -101,7 +108,7 @@ class ServiceDescriptorByReflection extends ServiceDescriptor
         }
         
         if($class->getParentClass() !== false) {
-            $methodReflections      = $this->searchClassMethods($class->getParentClass(), $methodReflections);
+            $methodReflections      = $this->fetchClassMethods($class->getParentClass(), $methodReflections);
         }
         
         return $methodReflections;

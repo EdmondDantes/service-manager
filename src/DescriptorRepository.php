@@ -12,7 +12,21 @@ class DescriptorRepository implements DescriptorRepositoryInterface
 {
     protected array|null $serviceDescriptors = null;
     
-    public function __construct(protected readonly RepositoryReaderInterface $repositoryReader, protected readonly ResolverInterface $resolver) {}
+    /**
+     * If $useOnlyServiceMethods is set to true,
+     * only methods with @ServiceMethod attribute will be considered as service methods.
+     * In other case all public methods will be considered as service methods.
+     *
+     * @param RepositoryReaderInterface $repositoryReader
+     * @param ResolverInterface $resolver
+     * @param bool $useOnlyServiceMethods
+     */
+    public function __construct(
+        protected readonly RepositoryReaderInterface $repositoryReader,
+        protected readonly ResolverInterface $resolver,
+        protected readonly bool $useOnlyServiceMethods = true
+    )
+    {}
     
     public function findServiceClass(string $serviceName): string|null
     {
@@ -71,7 +85,8 @@ class DescriptorRepository implements DescriptorRepositoryInterface
                 $serviceName,
                 $this->resolver,
                 true,
-                $serviceConfig
+                $serviceConfig,
+                $this->useOnlyServiceMethods
             );
         }
         
