@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\ServiceManager\Exceptions\ServiceNotFound;
 use IfCastle\ServiceManager\ServiceMocks\ServiceLibrary;
 use IfCastle\TypeDefinitions\Resolver\ExplicitTypeResolver;
 use PHPUnit\Framework\TestCase;
@@ -35,5 +36,19 @@ class ServiceLocatorTest            extends TestCase
         
         $this->assertNotNull($result);
         $this->assertInstanceOf(ServiceLibrary::class, $result);
+    }
+    
+    public function testGetService(): void
+    {
+        $result                     = $this->serviceLocator->getService('ServiceLibrary');
+        
+        $this->assertNotNull($result);
+        $this->assertInstanceOf(ServiceLibrary::class, $result);
+    }
+    
+    public function testGetServiceNotFound(): void
+    {
+        $this->expectException(ServiceNotFound::class);
+        $this->serviceLocator->getService('ServiceLibraryNotFound');
     }
 }
