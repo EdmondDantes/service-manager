@@ -17,14 +17,20 @@ class DescriptorRepository implements DescriptorRepositoryInterface
      * only methods with @ServiceMethod attribute will be considered as service methods.
      * In other case all public methods will be considered as service methods.
      *
-     * @param RepositoryReaderInterface $repositoryReader
-     * @param ResolverInterface $resolver
-     * @param bool $useOnlyServiceMethods
+     * @param RepositoryReaderInterface         $repositoryReader
+     * @param ResolverInterface                 $resolver
+     * @param ServiceDescriptorBuilderInterface $descriptorBuilder
+     * @param bool                              $useOnlyServiceMethods
+     * @param bool                              $bindWithFirstInterface
+     * @param bool                              $bindWithAllInterfaces
      */
     public function __construct(
-        protected readonly RepositoryReaderInterface $repositoryReader,
-        protected readonly ResolverInterface $resolver,
-        protected readonly bool $useOnlyServiceMethods = true
+        protected readonly RepositoryReaderInterface         $repositoryReader,
+        protected readonly ResolverInterface                 $resolver,
+        protected readonly ServiceDescriptorBuilderInterface $descriptorBuilder,
+        protected readonly bool                              $useOnlyServiceMethods  = true,
+        protected readonly bool                              $bindWithFirstInterface = false,
+        protected readonly bool                              $bindWithAllInterfaces  = false
     )
     {}
     
@@ -80,13 +86,15 @@ class DescriptorRepository implements DescriptorRepositoryInterface
                 continue;
             }
             
-            $serviceDescriptors[$serviceName] = new ServiceDescriptorByReflection(
+            $serviceDescriptors[$serviceName] = $this->descriptorBuilder->buildServiceDescriptor(
                 $serviceConfig['class'],
                 $serviceName,
                 $this->resolver,
                 true,
                 $serviceConfig,
-                $this->useOnlyServiceMethods
+                $this->useOnlyServiceMethods,
+                $this->bindWithFirstInterface,
+                $this->bindWithAllInterfaces
             );
         }
         

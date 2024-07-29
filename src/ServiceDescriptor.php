@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DI\ConstructibleInterface;
 use IfCastle\ServiceManager\Exceptions\MethodNotFound;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 
-class ServiceDescriptor             implements ServiceDescriptorInterface
+class ServiceDescriptor             implements ServiceDescriptorInterface, ConstructibleInterface
 {
     public function __construct(
         protected string $serviceName,
@@ -14,10 +15,17 @@ class ServiceDescriptor             implements ServiceDescriptorInterface
         protected array  $methods         = [],
         protected bool   $isActive        = true,
         protected array  $config          = [],
+        protected bool   $useConstructor  = true,
         protected array  $bindings        = [],
         protected array  $dependencies    = [],
         protected array  $attributes      = []
     ) {}
+    
+    #[\Override]
+    public function useConstructor(): bool
+    {
+        return $this->useConstructor;
+    }
     
     public function getDependencyDescriptors(): array
     {

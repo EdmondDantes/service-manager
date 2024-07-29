@@ -11,12 +11,14 @@ class DescriptorRepositoryTest      extends TestCase
 {
     private RepositoryReaderMemory $repositoryReader;
     private DescriptorRepository $descriptorRepository;
+    private ServiceDescriptorBuilderInterface $descriptorBuilder;
     
     #[\Override]
     protected function setUp(): void
     {
         $this->repositoryReader     = RepositoryReaderMemory::buildForTest();
-        $this->descriptorRepository = new DescriptorRepository($this->repositoryReader, new ExplicitTypeResolver);
+        $this->descriptorBuilder    = new ServiceDescriptorBuilderByReflection;
+        $this->descriptorRepository = new DescriptorRepository($this->repositoryReader, new ExplicitTypeResolver, $this->descriptorBuilder);
     }
     
     
