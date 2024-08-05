@@ -17,4 +17,17 @@ final class DescriptorWalker
             }
         }
     }
+    
+    public static function walkWithService(DescriptorRepositoryInterface $descriptorRepository): iterable
+    {
+        foreach ($descriptorRepository->getServiceDescriptorList() as $serviceDescriptor) {
+            foreach ($serviceDescriptor->getServiceMethods() as $serviceMethod) {
+                $isBreak = yield $serviceDescriptor->getServiceName() => [$serviceDescriptor, $serviceMethod];
+                
+                if(true === $isBreak) {
+                    return;
+                }
+            }
+        }
+    }
 }
