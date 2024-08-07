@@ -7,11 +7,6 @@ use IfCastle\DI\ContainerInterface;
 
 final class InternalExecutor        extends ExecutorAbstract
 {
-    public const string PUBLIC_LOCATOR   = 'publicLocator';
-    public const string INTERNAL_LOCATOR = 'internalLocator';
-    public const string INTERNAL_EXECUTOR = 'internalExecutor';
-    public const string PUBLIC_EXECUTOR = 'publicExecutor';
-    
     public function __construct(
         private readonly ServiceLocatorInterface $publicLocator,
         private readonly ServiceLocatorInterface $internalLocator,
