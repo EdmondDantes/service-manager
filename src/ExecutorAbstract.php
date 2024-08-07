@@ -130,7 +130,7 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         }
         
         if($resolver instanceof AutoResolverInterface) {
-            return $resolver->resolveDependencies($this->systemEnvironment);
+            $resolver->resolveDependencies($this->systemEnvironment);
         }
         
         return $resolver($parameter);

@@ -5,7 +5,7 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\DI\ContainerInterface;
 
-abstract class PublicExecutor extends ExecutorAbstract
+class PublicExecutor                extends ExecutorAbstract
 {
     public function __construct(
         private readonly ServiceLocatorInterface $serviceLocator,
