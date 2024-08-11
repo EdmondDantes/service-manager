@@ -256,3 +256,136 @@ class Service {
 
 In this case, the `Uuid` and `Timestamp` classes are specific classes that reflect the business logic rules.
 
+## Separation Public and Internal
+
+We propose structuring the application by dividing all services into two main groups:
+
+* **Public** services, which are available for remote calls.
+* **Internal** services, which are accessible only within the application.
+
+Why exactly two groups? 
+Why not three or four? 
+Why isn't one group enough?
+
+Having three or more groups of services can greatly complicate the application's architecture
+and the programmer's interaction with the code. 
+In other words, the programmer would need to keep track of the number of groups/layers 
+of services and think through their interactions. 
+This task is not trivial, and it is difficult to come up with an example where such a structure would be truly justified.
+
+Since access to all services is determined through an access control system, 
+why not use just one group of services? 
+That is, place all services in a single space?
+
+For many simple projects, such a service structure would likely be sufficient, and separating services into public and internal might not make sense. But let's consider an example.
+
+Suppose you have a service that returns the string "Hello World, Name". 
+The service takes a name as input and returns a string with the name. 
+Let's say you use the service in two different environments:
+
+* In a `REST API` environment.
+* In a `Console` environment.
+
+In the `REST API` environment, you need to specify a path where the URL will be transformed into a remote call. 
+You need to determine how the name parameter will be passed, as `REST API` has several methods for this.
+In the `Console` environment, it might also be important to define the command name that will be translated into a service call.
+
+You can achieve this by adding attributes to the service. 
+However, this would break the encapsulation of the service, 
+as it would now contain information about a specific implementation. 
+This isn't necessarily a bad thing, as there are situations where you need to write code quickly.
+
+You can also create special services that will call the target service. 
+These special adapter services will convert data and hide the implementation details 
+of a specific environment from the business logic service.
+
+```puml
+@startuml
+package "Service Groups" {
+    
+    package "Business Logic Services" {
+        class BusinessLogicService1 {
+            +execute()
+        }
+        class BusinessLogicService2 {
+            +execute()
+        }
+    }
+    
+    package "Adapter Services" {
+        package "REST API Adapter" {
+            class RESTAdapterService1 {
+                +convertAndCall()
+            }
+            class RESTAdapterService2 {
+                +convertAndCall()
+            }
+        }
+        
+        package "Console Adapter" {
+            class ConsoleAdapterService1 {
+                +convertAndCall()
+            }
+            class ConsoleAdapterService2 {
+                +convertAndCall()
+            }
+        }
+    }
+}
+
+BusinessLogicService1 <|-- RESTAdapterService1
+BusinessLogicService2 <|-- RESTAdapterService2
+BusinessLogicService1 <|-- ConsoleAdapterService1
+BusinessLogicService2 <|-- ConsoleAdapterService2
+
+@enduml
+
+```
+
+In other words, two main groups of services emerge:
+
+* Services that ensure interaction between the environment and the service where the business logic is implemented.
+* Services that implement pure business logic without the environment's implementation details.
+
+This structure aligns well with the principles of clean architecture.
+
+Since there can be multiple execution environments, 
+the number of adapter service groups can match the number of environments.
+
+```puml
+@startuml
+package "Service Layers" {
+    
+    package "Public Services" {
+        class PublicService1 {
+            +remoteCall()
+        }
+    }
+    
+    package "Internal Services" {
+        class InternalService1 {
+            +internalOperation()
+        }
+    }
+}
+
+PublicService1 --> InternalService1 : uses
+
+@enduml
+```
+
+### Two approaches to organizing Public and Internal services.
+
+
+This library offers two approaches for organizing the Public/Internal services scheme:
+
+* A separate scheme, where internal services are registered in their own ServiceLocator, and public services in their own.
+* A unified service storage.
+
+The difference is that the separate scheme requires explicitly defining adapter services for external interactions.
+The unified storage allows you to use brute force and declare pure business logic services as public if needed.
+In other words, the second scheme encourages writing "dirty code."
+In the first scheme, the programmer will be required to literally create two classes for two services:
+the business logic service and the adapter service.
+
+For most projects, the second scheme will be preferable, as it helps to write code faster.

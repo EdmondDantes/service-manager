@@ -5,6 +5,12 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\ServiceManager\Exceptions\ServiceNotFound;
 
+/**
+ * # ServiceLocatorPublicInternal
+ *
+ * The locator implements an interface ServiceLocatorPublicInternalInterface
+ * and allows searching for services based on their public status.
+ */
 class ServiceLocatorPublicInternal  extends ServiceLocatorWithInheritance
                                     implements ServiceLocatorPublicInternalInterface
 {
