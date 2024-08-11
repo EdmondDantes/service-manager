@@ -135,7 +135,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             // We use only those methods that are explicitly marked as service methods
             //
             if($useOnlyServiceMethods && empty($method->getAttributes(
-                    ServiceMethod::class, \ReflectionAttribute::IS_INSTANCEOF
+                    AsServiceMethod::class, \ReflectionAttribute::IS_INSTANCEOF
                 ))) {
                 continue;
             }

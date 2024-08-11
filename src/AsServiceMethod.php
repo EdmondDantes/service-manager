@@ -6,7 +6,7 @@ namespace IfCastle\ServiceManager;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-final class ServiceMethod
+final class AsServiceMethod
 {
     
 }

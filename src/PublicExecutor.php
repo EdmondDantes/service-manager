@@ -23,7 +23,11 @@ class PublicExecutor                extends ExecutorAbstract
     
     protected function resolveService(string $serviceName): array
     {
-        $service                    = $this->serviceLocator->findService($serviceName);
+        if($this->serviceLocator instanceof ServiceLocatorPublicInternalInterface) {
+            $service                = $this->serviceLocator->findPublicService($serviceName);
+        } else {
+            $service                = $this->serviceLocator->findService($serviceName);
+        }
         
         if($service === null) {
             return [null, null];

@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager\ServiceMocks;
 
-use IfCastle\ServiceManager\ServiceMethod;
+use IfCastle\ServiceManager\AsServiceMethod;
 
 class ServiceMailer
 {
     public array $sendLog = [];
     
-    #[ServiceMethod]
+    #[AsServiceMethod]
     public function sendMail(string $to, string $subject, string $message): void
     {
         $this->sendLog[] = [
@@ -19,7 +19,7 @@ class ServiceMailer
         ];
     }
     
-    #[ServiceMethod]
+    #[AsServiceMethod]
     public function isMailSent(string $to, string $subject, string $message): bool
     {
         return in_array([
@@ -29,7 +29,7 @@ class ServiceMailer
         ], $this->sendLog);
     }
     
-    #[ServiceMethod]
+    #[AsServiceMethod]
     public function getSendLog(): array
     {
         return $this->sendLog;

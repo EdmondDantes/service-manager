@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager\ServiceMocks;
 
-use IfCastle\ServiceManager\ServiceMethod;
+use IfCastle\ServiceManager\AsServiceMethod;
 
 class ServiceLibrary
 {
@@ -18,26 +18,26 @@ class ServiceLibrary
         ]
     ];
     
-    #[ServiceMethod]
+    #[AsServiceMethod]
     public function findBookByAuthor(string $authorName): array
     {
         return array_filter($this->books, fn($book) => $book['author'] === $authorName);
     }
     
-    #[ServiceMethod]
+    #[AsServiceMethod]
     public function addBook(array $book): void
     {
         // Add a book to the library
         $this->books[] = $book;
     }
     
-    #[ServiceMethod]
+    #[AsServiceMethod]
     public function getBooks(): array
     {
         return $this->books;
     }
     
-    #[ServiceMethod]
+    #[AsServiceMethod]
     public function removeBook(string $title): void
     {
         // Remove a book from the library
