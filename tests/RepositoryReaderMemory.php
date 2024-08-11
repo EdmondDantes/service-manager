@@ -5,6 +5,7 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\ServiceManager\RepositoryStorages\RepositoryReaderInterface;
 use IfCastle\ServiceManager\ServiceMocks\ServiceLibrary;
+use IfCastle\ServiceManager\ServiceMocks\ServiceLibraryPublic;
 use IfCastle\ServiceManager\ServiceMocks\ServiceMailer;
 
 readonly class RepositoryReaderMemory implements RepositoryReaderInterface
@@ -24,6 +25,37 @@ readonly class RepositoryReaderMemory implements RepositoryReaderInterface
             ],
             'ServiceMailerInactive' => [
                 'class'             => 'fakeClass',
+                'isActive'          => false,
+                'config'            => []
+            ]
+        ]);
+    }
+    
+    public static function buildForPublicTest(): self
+    {
+        return new self([
+            'ServiceLibraryPublic'  => [
+                'class'             => ServiceLibraryPublic::class,
+                'isActive'          => true,
+                'config'            => [],
+            ],
+            'ServiceMailerPublic' => [
+                'class'             => 'fakeClass',
+                'isActive'          => false,
+                'config'            => []
+            ],
+            'ServiceLibrary'        => [
+                'class'             => ServiceLibrary::class,
+                'isActive'          => true,
+                'config'            => [],
+            ],
+            'ServiceMailer'         => [
+                'class'             => ServiceMailer::class,
+                'isActive'          => true,
+                'config'            => []
+            ],
+            'ServiceMailerInactive' => [
+                'class'             => 'fakeClass2',
                 'isActive'          => false,
                 'config'            => []
             ]

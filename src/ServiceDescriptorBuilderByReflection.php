@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DI\AttributesToDescriptors;
 use IfCastle\DI\Binding;
 use IfCastle\DI\InjectableInterface;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
@@ -38,6 +39,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             $config,
             $useConstructor,
             $bindings,
+            AttributesToDescriptors::readDescriptors($reflectionClass),
             $attributes
         );
     }
