@@ -389,3 +389,15 @@ In the first scheme, the programmer will be required to literally create two cla
 the business logic service and the adapter service.
 
 For most projects, the second scheme will be preferable, as it helps to write code faster.
+
+## Services and Infrastructure
+
+Services that provide interfaces to the infrastructure should generally not be located in the 
+Public zone and are considered internal. 
+If required by the project, 
+you may choose to separate them into a dedicated storage.
+
+In most cases, it's difficult to come up with a scenario where infrastructure services need 
+to be separated into a different space. 
+Therefore, infrastructure services share the Internal space with services that implement business logic, 
+and their separation is only reflected at the file and directory structure level.
