@@ -42,6 +42,12 @@ class ServiceDescriptor             implements ServiceDescriptorInterface, Const
         return $this->className;
     }
     
+    #[\Override]
+    public function getDependencyName(): string
+    {
+        return $this->className;
+    }
+    
     public function isServiceActive(): bool
     {
         return $this->isActive;

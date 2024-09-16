@@ -93,7 +93,8 @@ class ServiceLocator                extends Container
     #[\Override]
     public function resolveDependency(
         DescriptorInterface|string $name,
-        DependencyInterface        $forDependency = null
+        DependencyInterface        $forDependency   = null,
+        int                        $stackOffset     = 0
     ): mixed
     {
         if(false === array_key_exists($name, $this->container)) {
@@ -104,7 +105,7 @@ class ServiceLocator                extends Container
             }
         }
         
-        return parent::resolveDependency($name, $forDependency);
+        return parent::resolveDependency($name, $forDependency, $stackOffset + 1);
     }
     
     #[\Override]
