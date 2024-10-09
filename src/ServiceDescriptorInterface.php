@@ -20,6 +20,20 @@ interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInte
      */
     public function getBindings(): array;
     
+    /**
+     * The method returns a list of Scopes in which the service is visible.
+     *
+     * @return string[]
+     */
+    public function getIncludeScopes(): array;
+    
+    /**
+     * The method returns a list of Scopes in which the service is not visible.
+     *
+     * @return string[]
+     */
+    public function getExcludeScopes(): array;
+    
     public function isServiceActive(): bool;
     
     public function getServiceConfig(): array;

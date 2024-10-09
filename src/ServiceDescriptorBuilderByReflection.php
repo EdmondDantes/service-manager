@@ -30,6 +30,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         $methods                    = $this->buildMethods($reflectionClass, $resolver, $useOnlyServiceMethods);
         $bindings                   = $this->makeBindings($reflectionClass, $bindWithFirstInterface, $bindWithAllInterfaces);
         $useConstructor             = $this->resolveUseConstructor($reflectionClass);
+        [$includeScopes, $excludeScopes] = $this->extractScopes($reflectionClass);
         
         return new ServiceDescriptor(
             $serviceName,
@@ -40,7 +41,9 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             $useConstructor,
             $bindings,
             AttributesToDescriptors::readDescriptors($reflectionClass),
-            $attributes
+            $attributes,
+            $includeScopes,
+            $excludeScopes
         );
     }
     
@@ -157,5 +160,21 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
     protected function resolveUseConstructor(\ReflectionClass $reflectionClass): bool
     {
         return false === in_array(InjectableInterface::class, $reflectionClass->getInterfaceNames(), true);
+    }
+    
+    protected function extractScopes(\ReflectionClass $reflection): array
+    {
+        $includeScopes              = [];
+        $excludeScopes              = [];
+        
+        foreach ($reflection->getAttributes(ServiceScope::class) as $scope) {
+            $includeScopes          = array_merge($includeScopes, $scope->newInstance()->scopes);
+        }
+        
+        foreach ($reflection->getAttributes(ServiceScopeExclude::class) as $scope) {
+            $excludeScopes          = array_merge($excludeScopes, $scope->newInstance()->scopes);
+        }
+        
+        return [$includeScopes, $excludeScopes];
     }
 }
