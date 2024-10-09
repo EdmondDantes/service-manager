@@ -69,4 +69,10 @@ readonly class RepositoryReaderMemory implements RepositoryReaderInterface
     {
         return $this->servicesConfig;
     }
+    
+    #[\Override]
+    public function findServiceConfig(string $serviceName): array|null
+    {
+        return $this->servicesConfig[$serviceName] ?? null;
+    }
 }

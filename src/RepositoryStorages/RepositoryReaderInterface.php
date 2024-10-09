@@ -9,4 +9,6 @@ interface RepositoryReaderInterface
      * @return array<string, array>
      */
     public function getServicesConfig(): array;
+    
+    public function findServiceConfig(string $serviceName): array|null;
 }
