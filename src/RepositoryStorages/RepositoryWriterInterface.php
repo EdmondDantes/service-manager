@@ -16,4 +16,6 @@ interface RepositoryWriterInterface extends RepositoryReaderInterface
     public function deactivateService(string $serviceName): void;
     
     public function changeServiceScope(string $serviceName, array $scopes): void;
+    
+    public function saveRepository(): void;
 }

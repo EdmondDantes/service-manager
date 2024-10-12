@@ -12,4 +12,6 @@ interface ServiceManagerInterface
     public function activateService(string $serviceName): void;
     
     public function deactivateService(string $serviceName): void;
+    
+    public function updateServiceConfig(ServiceDescriptorInterface $serviceDescriptor): void;
 }
