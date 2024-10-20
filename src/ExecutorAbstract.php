@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace IfCastle\ServiceManager;
 
 use IfCastle\DesignPatterns\Interceptor\InterceptorPipeline;
+use IfCastle\DesignPatterns\Interceptor\InterceptorRegistryInterface;
 use IfCastle\DI\AutoResolverInterface;
 use IfCastle\DI\ContainerInterface;
 use IfCastle\ServiceManager\Exceptions\ServiceException;
@@ -212,6 +213,17 @@ abstract class ExecutorAbstract     implements ExecutorInterface
     protected function getRequestEnv(): ContainerInterface|null
     {
         return null;
+    }
+    
+    protected function initializeInterceptors(): void
+    {
+        $interceptors               = $this->systemEnvironment
+                                    ?->findDependency(InterceptorRegistryInterface::class)
+                                    ?->resolveInterceptors(ParameterResolverInterface::class);
+        
+        if($interceptors !== null) {
+            $this->interceptors      = $interceptors;
+        }
     }
     
     abstract protected function resolveService(string $serviceName): array;

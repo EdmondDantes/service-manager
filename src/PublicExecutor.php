@@ -19,6 +19,8 @@ class PublicExecutor                extends ExecutorAbstract
         $this->accessChecker        = $accessChecker;
         $this->taskRunner           = $taskRunner;
         $this->tracer               = $tracer;
+        
+        $this->initializeInterceptors();
     }
     
     protected function resolveService(string $serviceName): array
