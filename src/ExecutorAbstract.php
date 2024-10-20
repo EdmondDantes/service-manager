@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DesignPatterns\Interceptor\InterceptorPipeline;
 use IfCastle\DI\AutoResolverInterface;
 use IfCastle\DI\ContainerInterface;
 use IfCastle\ServiceManager\Exceptions\ServiceException;
@@ -30,6 +31,7 @@ abstract class ExecutorAbstract     implements ExecutorInterface
     protected ContainerInterface|null $systemEnvironment = null;
     protected AccessCheckerInterface|null $accessChecker = null;
     protected TaskRunnerInterface|null $taskRunner = null;
+    protected array $interceptors = [];
     
     /**
      * @throws \Throwable
@@ -75,6 +77,19 @@ abstract class ExecutorAbstract     implements ExecutorInterface
         {
             $parameterName          = $parameter->getName();
             $isParameterExists      = array_key_exists($parameterName, $parameters);
+            
+            //
+            // Apply interceptors if exists
+            //
+            if($this->interceptors !== []) {
+                $result             = (new InterceptorPipeline($this, [$parameter, $methodDescriptor, $parameters], ...$this->interceptors))
+                                    ->getResult();
+                
+                if($result !== null) {
+                    $normalized[$parameterName] = $result;
+                    continue;
+                }
+            }
             
             if($parameter->getResolver() !== null) {
                 $normalized[$parameterName] = $this->resolveParameter($parameter);
