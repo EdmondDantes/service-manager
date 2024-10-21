@@ -6,7 +6,6 @@ namespace IfCastle\ServiceManager;
 use IfCastle\DI\AttributesToDescriptors;
 use IfCastle\DI\Binding;
 use IfCastle\DI\InjectableInterface;
-use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Reader\ReflectionFunctionReader;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
@@ -95,9 +94,6 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
     }
     
     /**
-     * Returns an array of attributes where key is className and value is attribute.
-     * If some attributes have similar className value should be an array.
-     *
      * @param    \ReflectionAttribute[]    $reflectionAttributes
      */
     protected function buildAttributes(array $reflectionAttributes): array
@@ -105,20 +101,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         $result                     = [];
         
         foreach ($reflectionAttributes as $reflectionAttribute) {
-            $attribute              = $reflectionAttribute->newInstance();
-            
-            $key                    = $attribute instanceof AttributeNameInterface ? $attribute->getAttributeName() : $attribute::class;
-            
-            if(array_key_exists($key, $result)) {
-                
-                if(!is_array($result[$key])) {
-                    $result[$key]   = [$result[$key]];
-                }
-                
-                $result[$key][]     = $attribute;
-            } else {
-                $result[$key]       = $attribute;
-            }
+            $result[]               = $reflectionAttribute->newInstance();
         }
         
         return $result;

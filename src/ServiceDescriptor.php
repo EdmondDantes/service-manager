@@ -5,10 +5,13 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\DI\ConstructibleInterface;
 use IfCastle\ServiceManager\Exceptions\MethodNotFound;
+use IfCastle\TypeDefinitions\AttributesTrait;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 
 class ServiceDescriptor             implements ServiceDescriptorInterface, ConstructibleInterface
 {
+    use AttributesTrait;
+    
     public function __construct(
         protected string $serviceName,
         protected string $className,
@@ -18,10 +21,13 @@ class ServiceDescriptor             implements ServiceDescriptorInterface, Const
         protected bool   $useConstructor  = true,
         protected array  $bindings        = [],
         protected array  $dependencies    = [],
-        protected array  $attributes      = [],
+        array  $attributes                = [],
         protected array  $includeScopes   = [],
         protected array  $excludeScopes   = []
-    ) {}
+    )
+    {
+        $this->attributes = $attributes;
+    }
     
     #[\Override]
     public function useConstructor(): bool
@@ -76,18 +82,6 @@ class ServiceDescriptor             implements ServiceDescriptorInterface, Const
     public function getServiceConfig(): array
     {
         return $this->config;
-    }
-    
-    #[\Override]
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-    
-    #[\Override]
-    public function findAttribute(string $name): mixed
-    {
-        return $this->attributes[$name] ?? null;
     }
     
     #[\Override]
