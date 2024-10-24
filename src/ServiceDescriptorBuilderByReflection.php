@@ -29,7 +29,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         $methods                    = $this->buildMethods($reflectionClass, $resolver, $useOnlyServiceMethods);
         $bindings                   = $this->makeBindings($reflectionClass, $bindWithFirstInterface, $bindWithAllInterfaces);
         $useConstructor             = $this->resolveUseConstructor($reflectionClass);
-        [$includeScopes, $excludeScopes] = $this->extractScopes($reflectionClass);
+        [$include, $exclude]        = $this->extractTags($reflectionClass);
         
         return new ServiceDescriptor(
             $serviceName,
@@ -41,8 +41,8 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             $bindings,
             AttributesToDescriptors::readDescriptors($reflectionClass),
             $attributes,
-            $includeScopes,
-            $excludeScopes
+            $include,
+            $exclude
         );
     }
     
@@ -145,19 +145,19 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         return false === in_array(InjectableInterface::class, $reflectionClass->getInterfaceNames(), true);
     }
     
-    protected function extractScopes(\ReflectionClass $reflection): array
+    protected function extractTags(\ReflectionClass $reflection): array
     {
-        $includeScopes              = [];
-        $excludeScopes              = [];
+        $include                    = [];
+        $exclude                    = [];
         
-        foreach ($reflection->getAttributes(ServiceScope::class) as $scope) {
-            $includeScopes          = array_merge($includeScopes, $scope->newInstance()->scopes);
+        foreach ($reflection->getAttributes(ServiceTags::class) as $tags) {
+            $include                = array_merge($include, $tags->newInstance()->tags);
         }
         
-        foreach ($reflection->getAttributes(ServiceScopeExclude::class) as $scope) {
-            $excludeScopes          = array_merge($excludeScopes, $scope->newInstance()->scopes);
+        foreach ($reflection->getAttributes(ServiceScopeExclude::class) as $tags) {
+            $exclude                = array_merge($exclude, $tags->newInstance()->tags);
         }
         
-        return [$includeScopes, $excludeScopes];
+        return [$include, $exclude];
     }
 }

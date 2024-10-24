@@ -23,8 +23,8 @@ class ServiceManager                implements ServiceManagerInterface
         $serviceConfig              = $serviceDescriptor->getServiceConfig();
         $serviceConfig['class']     = $serviceDescriptor->getClassName();
         $serviceConfig['isActive']  = $serviceDescriptor->isServiceActive();
-        $serviceConfig['scopes']    = $serviceDescriptor->getIncludeScopes();
-        $serviceConfig['excludeScopes'] = $serviceDescriptor->getExcludeScopes();
+        $serviceConfig['tags']      = $serviceDescriptor->getIncludeTags();
+        $serviceConfig['excludeTags'] = $serviceDescriptor->getExcludeTags();
         
         
         $this->repositoryWriter->addServiceConfig($serviceDescriptor->getServiceName(), $serviceConfig);
@@ -70,8 +70,8 @@ class ServiceManager                implements ServiceManagerInterface
         $serviceConfig              = $serviceDescriptor->getServiceConfig();
         $serviceConfig['class']     = $serviceDescriptor->getClassName();
         $serviceConfig['isActive']  = $serviceDescriptor->isServiceActive();
-        $serviceConfig['scopes']    = $serviceDescriptor->getIncludeScopes();
-        $serviceConfig['excludeScopes'] = $serviceDescriptor->getExcludeScopes();
+        $serviceConfig['tags']    = $serviceDescriptor->getIncludeTags();
+        $serviceConfig['excludeTags'] = $serviceDescriptor->getExcludeTags();
         
         $this->repositoryWriter->updateServiceConfig($serviceDescriptor->getServiceName(), $serviceConfig);
         $this->repositoryWriter->saveRepository();

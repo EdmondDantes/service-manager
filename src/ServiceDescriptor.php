@@ -21,9 +21,9 @@ class ServiceDescriptor             implements ServiceDescriptorInterface, Const
         protected bool   $useConstructor  = true,
         protected array  $bindings        = [],
         protected array  $dependencies    = [],
-        array  $attributes                = [],
-        protected array  $includeScopes   = [],
-        protected array  $excludeScopes   = []
+        array            $attributes      = [],
+        protected array  $includeTags     = [],
+        protected array  $excludeTags     = []
     )
     {
         $this->attributes = $attributes;
@@ -68,15 +68,15 @@ class ServiceDescriptor             implements ServiceDescriptorInterface, Const
     }
     
     #[\Override]
-    public function getIncludeScopes(): array
+    public function getIncludeTags(): array
     {
-        return $this->includeScopes;
+        return $this->includeTags;
     }
     
     #[\Override]
-    public function getExcludeScopes(): array
+    public function getExcludeTags(): array
     {
-        return $this->excludeScopes;
+        return $this->excludeTags;
     }
     
     public function getServiceConfig(): array

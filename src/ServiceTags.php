@@ -7,18 +7,18 @@ use Attribute;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-readonly class ServiceScope          implements AttributeNameInterface
+readonly class ServiceTags          implements AttributeNameInterface
 {
-    public array $scopes;
+    public array $tags;
     
-    public function __construct(string ...$scopes)
+    public function __construct(string ...$tags)
     {
-        $this->scopes       = $scopes;
+        $this->tags                 = $tags;
     }
     
     #[\Override]
     public function getAttributeName(): string
     {
-        return 'serviceScope';
+        return self::class;
     }
 }
