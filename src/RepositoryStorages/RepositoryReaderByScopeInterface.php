@@ -11,7 +11,7 @@ interface RepositoryReaderByScopeInterface
     /**
      * @return array<string, array>
      */
-    public function getServicesConfigByScope(string ...$scopes): array;
+    public function getServicesConfigByTags(string ...$tags): array;
     
-    public function findServiceConfigByScope(string $serviceName, string ...$scopes): array|null;
+    public function findServiceConfigByTags(string $serviceName, string ...$tags): array|null;
 }
