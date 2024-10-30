@@ -30,15 +30,20 @@ abstract class ExecutorAbstract implements ExecutorInterface
     }
 
     protected ServiceTracerInterface|null $tracer       = null;
+
     protected ContainerInterface|null $systemEnvironment = null;
+
     protected AccessCheckerInterface|null $accessChecker = null;
+
     protected TaskRunnerInterface|null $taskRunner = null;
+
     protected array $interceptors = [];
 
     /**
      * @throws \Throwable
      * @throws ServiceException
      */
+    #[\Override]
     public function executeCommand(
         string|CommandDescriptorInterface $service,
         ?string                            $command      = null,

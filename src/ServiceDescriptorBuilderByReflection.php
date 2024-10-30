@@ -133,7 +133,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         }
 
         if ($class->getParentClass() !== false) {
-            $methodReflections      = $this->fetchClassMethods($class->getParentClass(), $useOnlyServiceMethods, $methodReflections);
+            return $this->fetchClassMethods($class->getParentClass(), $useOnlyServiceMethods, $methodReflections);
         }
 
         return $methodReflections;

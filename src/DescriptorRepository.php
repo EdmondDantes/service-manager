@@ -28,6 +28,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
         protected readonly bool                              $bindWithAllInterfaces  = false
     ) {}
 
+    #[\Override]
     public function findServiceClass(string $serviceName): string|null
     {
         $this->load();
@@ -35,6 +36,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
         return $this->serviceDescriptors[$serviceName]?->getClassName();
     }
 
+    #[\Override]
     public function getServiceDescriptorList(bool $onlyActive = true): array
     {
         $this->load();
@@ -42,6 +44,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
         return $this->serviceDescriptors;
     }
 
+    #[\Override]
     public function findServiceDescriptor(string $serviceName): ServiceDescriptorInterface|null
     {
         $this->load();
@@ -49,6 +52,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
         return $this->serviceDescriptors[$serviceName] ?? null;
     }
 
+    #[\Override]
     public function getServiceDescriptor(string $serviceName): ServiceDescriptorInterface
     {
         $this->load();

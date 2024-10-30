@@ -24,6 +24,7 @@ final class InternalExecutor extends ExecutorAbstract
         $this->initializeInterceptors();
     }
 
+    #[\Override]
     protected function resolveService(string $serviceName): array
     {
         $service                    = $this->publicLocator->findService($serviceName);

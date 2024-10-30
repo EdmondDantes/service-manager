@@ -23,6 +23,7 @@ class PublicExecutor extends ExecutorAbstract
         $this->initializeInterceptors();
     }
 
+    #[\Override]
     protected function resolveService(string $serviceName): array
     {
         if ($this->serviceLocator instanceof ServiceLocatorPublicInternalInterface) {

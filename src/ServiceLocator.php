@@ -22,6 +22,7 @@ class ServiceLocator extends Container implements ServiceLocatorInterface
         parent::__construct(new Resolver(), [], $parentContainer, $isWeakParent);
     }
 
+    #[\Override]
     public function getServiceList(bool $shouldUpdate = false): array
     {
         $services                   = [];
@@ -33,31 +34,37 @@ class ServiceLocator extends Container implements ServiceLocatorInterface
         return $services;
     }
 
+    #[\Override]
     public function findServiceClass(string $serviceName): ?string
     {
         return $this->descriptorRepository->findServiceClass($serviceName);
     }
 
+    #[\Override]
     public function findService(string $serviceName): ?object
     {
         return $this->tryLoadService($serviceName);
     }
 
+    #[\Override]
     public function getService(string $serviceName): object
     {
         return $this->tryLoadService($serviceName) ?? throw new ServiceNotFound($serviceName);
     }
 
+    #[\Override]
     public function findServiceDescriptor(string $serviceName): ?ServiceDescriptorInterface
     {
         return $this->descriptorRepository->findServiceDescriptor($serviceName);
     }
 
+    #[\Override]
     public function getServiceDescriptor(string $serviceName): ServiceDescriptorInterface
     {
         return $this->descriptorRepository->getServiceDescriptor($serviceName);
     }
 
+    #[\Override]
     public function getServiceDescriptorList(bool $onlyActive = true): array
     {
         return $this->descriptorRepository->getServiceDescriptorList($onlyActive);

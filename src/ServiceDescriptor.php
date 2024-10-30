@@ -36,6 +36,7 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
         return $this->useConstructor;
     }
 
+    #[\Override]
     public function getDependencyDescriptors(): array
     {
         return $this->dependencies;
@@ -47,11 +48,13 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
         return $this->packageName;
     }
 
+    #[\Override]
     public function getServiceName(): string
     {
         return $this->serviceName;
     }
 
+    #[\Override]
     public function getClassName(): string
     {
         return $this->className;
@@ -63,6 +66,7 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
         return $this->className;
     }
 
+    #[\Override]
     public function isServiceActive(): bool
     {
         return $this->isActive;
@@ -86,6 +90,7 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
         return $this->excludeTags;
     }
 
+    #[\Override]
     public function getServiceConfig(): array
     {
         return $this->config;
