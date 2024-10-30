@@ -10,6 +10,13 @@ namespace IfCastle\ServiceManager\RepositoryStorages;
 interface RepositoryReaderByTagsInterface
 {
     /**
+     * Returns all services configuration with duplicates.
+     *
+     * @return array<array<array<mixed>>>
+     */
+    public function getServicesConfigAll(): array;
+    
+    /**
      * @return array<string, array<mixed>>
      */
     public function getServicesConfigByTags(string ...$tags): array;
