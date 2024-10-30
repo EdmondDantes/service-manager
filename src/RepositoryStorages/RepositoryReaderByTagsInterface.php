@@ -22,10 +22,5 @@ interface RepositoryReaderByTagsInterface
     /**
      * @return array<string, array<mixed>>
      */
-    public function findServicesConfigByTags(string ...$tags): array;
-
-    /**
-     * @return array<string, array<mixed>>
-     */
     public function findServicesConfigByPackage(string $packageName): array;
 }
