@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
@@ -6,12 +7,12 @@ namespace IfCastle\ServiceManager;
 use IfCastle\ServiceManager\Exceptions\ServiceException;
 use IfCastle\ServiceManager\RepositoryStorages\RepositoryWriterInterface;
 
-class ServiceManager                implements ServiceManagerInterface
+class ServiceManager implements ServiceManagerInterface
 {
     public function __construct(
         protected readonly RepositoryWriterInterface $repositoryWriter
     ) {}
-    
+
     /**
      * @throws ServiceException
      */
@@ -19,18 +20,18 @@ class ServiceManager                implements ServiceManagerInterface
     public function installService(ServiceDescriptorInterface $serviceDescriptor): void
     {
         $this->throwIfNotFound($serviceDescriptor->getServiceName());
-        
+
         $serviceConfig              = $serviceDescriptor->getServiceConfig();
         $serviceConfig['class']     = $serviceDescriptor->getClassName();
         $serviceConfig['isActive']  = $serviceDescriptor->isServiceActive();
         $serviceConfig['tags']      = $serviceDescriptor->getIncludeTags();
         $serviceConfig['excludeTags'] = $serviceDescriptor->getExcludeTags();
-        
-        
+
+
         $this->repositoryWriter->addServiceConfig($serviceDescriptor->getServiceName(), $serviceConfig);
         $this->repositoryWriter->saveRepository();
     }
-    
+
     /**
      * @throws ServiceException
      */
@@ -41,7 +42,7 @@ class ServiceManager                implements ServiceManagerInterface
         $this->repositoryWriter->removeServiceConfig($serviceName);
         $this->repositoryWriter->saveRepository();
     }
-    
+
     /**
      * @throws ServiceException
      */
@@ -52,7 +53,7 @@ class ServiceManager                implements ServiceManagerInterface
         $this->repositoryWriter->activateService($serviceName);
         $this->repositoryWriter->saveRepository();
     }
-    
+
     /**
      * @throws ServiceException
      */
@@ -63,7 +64,7 @@ class ServiceManager                implements ServiceManagerInterface
         $this->repositoryWriter->deactivateService($serviceName);
         $this->repositoryWriter->saveRepository();
     }
-    
+
     #[\Override]
     public function updateServiceConfig(ServiceDescriptorInterface $serviceDescriptor): void
     {
@@ -72,11 +73,11 @@ class ServiceManager                implements ServiceManagerInterface
         $serviceConfig['isActive']  = $serviceDescriptor->isServiceActive();
         $serviceConfig['tags']    = $serviceDescriptor->getIncludeTags();
         $serviceConfig['excludeTags'] = $serviceDescriptor->getExcludeTags();
-        
+
         $this->repositoryWriter->updateServiceConfig($serviceDescriptor->getServiceName(), $serviceConfig);
         $this->repositoryWriter->saveRepository();
     }
-    
+
     /**
      * @throws ServiceException
      */
@@ -85,8 +86,8 @@ class ServiceManager                implements ServiceManagerInterface
         if ($this->repositoryWriter->findServiceConfig($serviceName) !== null) {
             throw new ServiceException([
                 'template'          => 'Service {service} already exists',
-                'service'           => $serviceName
-           ]);
+                'service'           => $serviceName,
+            ]);
         }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
@@ -21,16 +22,16 @@ readonly class RepositoryReaderMemory implements RepositoryReaderInterface
             'ServiceMailer'         => [
                 'class'             => ServiceMailer::class,
                 'isActive'          => true,
-                'config'            => []
+                'config'            => [],
             ],
             'ServiceMailerInactive' => [
                 'class'             => 'fakeClass',
                 'isActive'          => false,
-                'config'            => []
-            ]
+                'config'            => [],
+            ],
         ]);
     }
-    
+
     public static function buildForPublicTest(): self
     {
         return new self([
@@ -42,7 +43,7 @@ readonly class RepositoryReaderMemory implements RepositoryReaderInterface
             'ServiceMailerPublic' => [
                 'class'             => 'fakeClass',
                 'isActive'          => false,
-                'config'            => []
+                'config'            => [],
             ],
             'ServiceLibrary'        => [
                 'class'             => ServiceLibrary::class,
@@ -52,24 +53,24 @@ readonly class RepositoryReaderMemory implements RepositoryReaderInterface
             'ServiceMailer'         => [
                 'class'             => ServiceMailer::class,
                 'isActive'          => true,
-                'config'            => []
+                'config'            => [],
             ],
             'ServiceMailerInactive' => [
                 'class'             => 'fakeClass2',
                 'isActive'          => false,
-                'config'            => []
-            ]
+                'config'            => [],
+            ],
         ]);
     }
-    
+
     public function __construct(public array $servicesConfig = []) {}
-    
+
     #[\Override]
     public function getServicesConfig(): array
     {
         return $this->servicesConfig;
     }
-    
+
     #[\Override]
     public function findServiceConfig(string $serviceName): array|null
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IfCastle\ServiceManager\RepositoryStorages;
@@ -6,13 +7,13 @@ namespace IfCastle\ServiceManager\RepositoryStorages;
 final readonly class RepositoryReaderByTagsBridge implements RepositoryReaderInterface
 {
     public function __construct(private RepositoryReaderByScopeInterface $repositoryReader, private array $tags) {}
-    
+
     #[\Override]
     public function getServicesConfig(): array
     {
         return $this->repositoryReader->getServicesConfigByTags(...$this->tags);
     }
-    
+
     #[\Override]
     public function findServiceConfig(string $serviceName): array|null
     {
