@@ -7,9 +7,6 @@ namespace IfCastle\ServiceManager;
 interface ServiceTracerInterface
 {
     /**
-     * @param string $serviceName
-     * @param ServiceDescriptorInterface $serviceDescriptor
-     * @param string $method
      * @param array<string, mixed> $parameters
      */
     public function startServiceCall(string $serviceName, ServiceDescriptorInterface $serviceDescriptor, string $method, array $parameters): void;

@@ -10,13 +10,8 @@ use IfCastle\TypeDefinitions\Value\ValueContainerInterface;
 interface TaskRunnerInterface
 {
     /**
-     * @param ServiceDescriptorInterface  $serviceDescriptor
-     * @param FunctionDescriptorInterface $methodDescriptor
-     * @param string                      $service
-     * @param string                      $command
      * @param array<string, mixed>        $parameters
      *
-     * @return ValueContainerInterface|null
      */
     public function tryRunningAsTask(
         ServiceDescriptorInterface $serviceDescriptor,

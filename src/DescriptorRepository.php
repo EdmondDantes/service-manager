@@ -35,7 +35,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
     public function findServiceClass(string $serviceName): string|null
     {
         $this->load();
-        
+
         $service                    = $this->serviceDescriptors[$serviceName] ?? null;
         return $service?->getClassName();
     }

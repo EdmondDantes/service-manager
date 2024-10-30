@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace IfCastle\ServiceManager;
 
 use IfCastle\DI\ConstructibleInterface;
+use IfCastle\DI\DescriptorInterface;
 use IfCastle\ServiceManager\Exceptions\MethodNotFound;
 use IfCastle\TypeDefinitions\AttributesTrait;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
-use IfCastle\DI\DescriptorInterface;
 
 class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInterface
 {

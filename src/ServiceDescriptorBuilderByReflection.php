@@ -50,7 +50,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             $exclude
         );
     }
-    
+
     /**
      * @param \ReflectionClass<object> $reflectionClass
      *
@@ -121,7 +121,6 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
 
     /**
      * @param \ReflectionClass<object> $class
-     * @param bool                     $useOnlyServiceMethods
      * @param array<\ReflectionMethod> $methodReflections
      *
      * @return array<\ReflectionMethod>
@@ -161,7 +160,6 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
 
     /**
      * @param \ReflectionClass<object> $reflectionClass
-     * @return bool
      */
     protected function resolveUseConstructor(\ReflectionClass $reflectionClass): bool
     {
