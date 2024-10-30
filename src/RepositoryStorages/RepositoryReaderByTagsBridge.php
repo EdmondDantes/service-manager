@@ -9,7 +9,7 @@ final readonly class RepositoryReaderByTagsBridge implements RepositoryReaderInt
     /**
      * @param array<string> $tags
      */
-    public function __construct(private RepositoryReaderByScopeInterface $repositoryReader, private array $tags) {}
+    public function __construct(private RepositoryReaderByTagsInterface $repositoryReader, private array $tags) {}
 
     #[\Override]
     public function getServicesConfig(): array

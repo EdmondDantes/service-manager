@@ -7,7 +7,7 @@ namespace IfCastle\ServiceManager\RepositoryStorages;
 /**
  * Extracts services configuration from a repository by scope.
  */
-interface RepositoryReaderByScopeInterface
+interface RepositoryReaderByTagsInterface
 {
     /**
      * @return array<string, array<mixed>>
