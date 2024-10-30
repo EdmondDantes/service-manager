@@ -8,6 +8,9 @@ class ServiceNotFound extends ServiceException
 {
     protected array $tags           = ['service'];
 
+    /**
+     * @param array<scalar|null|scalar[]> $debugData
+     */
     public function __construct(string $service, array $debugData = [])
     {
         parent::__construct([

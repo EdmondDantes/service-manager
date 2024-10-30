@@ -33,7 +33,7 @@ class ServiceLocatorWithInheritance extends Container implements ServiceLocatorI
 
         if ($parentContainer instanceof ServiceLocatorInterface) {
 
-            foreach (array_keys($parentContainer->getServiceDescriptorList()) as $serviceName) {
+            foreach (\array_keys($parentContainer->getServiceDescriptorList()) as $serviceName) {
                 if (false === \array_key_exists($serviceName, $services)) {
                     $services[$serviceName] = $parentContainer->getService($serviceName);
                 }

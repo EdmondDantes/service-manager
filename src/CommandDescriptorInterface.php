@@ -17,5 +17,9 @@ interface CommandDescriptorInterface
      */
     public function getCommandName(): string;
 
+    /**
+     * Returns the list of parameters for the command.
+     * @return array<string, mixed>
+     */
     public function getParameters(): array;
 }

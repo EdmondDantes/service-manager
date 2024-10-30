@@ -39,6 +39,9 @@ interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInte
 
     public function isServiceActive(): bool;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getServiceConfig(): array;
 
     /**

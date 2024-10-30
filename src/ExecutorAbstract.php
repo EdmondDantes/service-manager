@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DesignPatterns\Interceptor\InterceptorInterface;
 use IfCastle\DesignPatterns\Interceptor\InterceptorPipeline;
 use IfCastle\DesignPatterns\Interceptor\InterceptorRegistryInterface;
 use IfCastle\DI\AutoResolverInterface;
@@ -37,6 +38,9 @@ abstract class ExecutorAbstract implements ExecutorInterface
 
     protected TaskRunnerInterface|null $taskRunner = null;
 
+    /**
+     * @var InterceptorInterface[]
+     */
     protected array $interceptors = [];
 
     /**
@@ -47,7 +51,7 @@ abstract class ExecutorAbstract implements ExecutorInterface
     public function executeCommand(
         string|CommandDescriptorInterface $service,
         ?string                            $command      = null,
-        array                             $parameters   = [],
+        array                              $parameters   = [],
         ?ExecutionContextInterface         $context      = null
     ): mixed {
         if ($service instanceof CommandDescriptorInterface) {
@@ -73,6 +77,8 @@ abstract class ExecutorAbstract implements ExecutorInterface
     }
 
     /**
+     * @param array<string, mixed> $parameters
+     * @return array<string, mixed>
      * @throws ServiceException
      */
     protected function normalizeParameters(array $parameters, FunctionDescriptorInterface $methodDescriptor): array
@@ -188,6 +194,10 @@ abstract class ExecutorAbstract implements ExecutorInterface
         return null;
     }
 
+    /**
+     * @param array<string, mixed> $parameters
+     * @throws \Throwable
+     */
     protected function runCommand(
         object                     $service,
         ServiceDescriptorInterface $serviceDescriptor,
@@ -229,5 +239,8 @@ abstract class ExecutorAbstract implements ExecutorInterface
         }
     }
 
+    /**
+     * @return array{object|null, ServiceDescriptorInterface|null}
+     */
     abstract protected function resolveService(string $serviceName): array;
 }

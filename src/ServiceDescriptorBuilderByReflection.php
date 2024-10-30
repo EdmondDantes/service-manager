@@ -7,12 +7,17 @@ namespace IfCastle\ServiceManager;
 use IfCastle\DI\AttributesToDescriptors;
 use IfCastle\DI\Binding;
 use IfCastle\DI\InjectableInterface;
+use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Reader\ReflectionFunctionReader;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 
 final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBuilderInterface
 {
+    /**
+     * @throws \ReflectionException
+     * @throws TypeUnresolved
+     */
     #[\Override]
     public function buildServiceDescriptor(
         object|string $service,
@@ -45,7 +50,12 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             $exclude
         );
     }
-
+    
+    /**
+     * @param \ReflectionClass<object> $reflectionClass
+     *
+     * @return string[]
+     */
     protected function makeBindings(
         \ReflectionClass $reflectionClass,
         bool             $bindWithFirstInterface    = false,
@@ -78,6 +88,8 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
     }
 
     /**
+     * @param \ReflectionClass<object> $reflectionClass
+     * @return array<string, FunctionDescriptorInterface>
      * @throws TypeUnresolved
      */
     protected function buildMethods(\ReflectionClass $reflectionClass, ResolverInterface $resolver, bool $useOnlyServiceMethods): array
@@ -93,7 +105,8 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
     }
 
     /**
-     * @param    \ReflectionAttribute[]    $reflectionAttributes
+     * @param    \ReflectionAttribute<object>[]    $reflectionAttributes
+     * @return   object[]
      */
     protected function buildAttributes(array $reflectionAttributes): array
     {
@@ -106,6 +119,13 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         return $result;
     }
 
+    /**
+     * @param \ReflectionClass<object> $class
+     * @param bool                     $useOnlyServiceMethods
+     * @param array<\ReflectionMethod> $methodReflections
+     *
+     * @return array<\ReflectionMethod>
+     */
     protected function fetchClassMethods(\ReflectionClass $class, bool $useOnlyServiceMethods, array $methodReflections = []): array
     {
         foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
@@ -139,21 +159,31 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         return $methodReflections;
     }
 
+    /**
+     * @param \ReflectionClass<object> $reflectionClass
+     * @return bool
+     */
     protected function resolveUseConstructor(\ReflectionClass $reflectionClass): bool
     {
         return false === \in_array(InjectableInterface::class, $reflectionClass->getInterfaceNames(), true);
     }
 
+    /**
+     * @param \ReflectionClass<object> $reflection
+     * @return array{0: array<string>, 1: array<string>}
+     */
     protected function extractTags(\ReflectionClass $reflection): array
     {
         $include                    = [];
         $exclude                    = [];
 
         foreach ($reflection->getAttributes(ServiceTags::class) as $tags) {
+            /* @var \ReflectionAttribute<ServiceTags> $tags */
             $include                = \array_merge($include, $tags->newInstance()->tags);
         }
 
-        foreach ($reflection->getAttributes(ServiceScopeExclude::class) as $tags) {
+        foreach ($reflection->getAttributes(ServiceTagsExclude::class) as $tags) {
+            /* @var \ReflectionAttribute<ServiceTagsExclude> $tags */
             $exclude                = \array_merge($exclude, $tags->newInstance()->tags);
         }
 

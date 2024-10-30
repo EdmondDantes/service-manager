@@ -8,18 +8,21 @@ use Attribute;
 use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-readonly class ServiceScopeExclude implements AttributeNameInterface
+readonly class ServiceTagsExclude implements AttributeNameInterface
 {
-    public array $scopes;
+    /**
+     * @var  string[]
+     */
+    public array $tags;
 
-    public function __construct(string ...$scopes)
+    public function __construct(string ...$tags)
     {
-        $this->scopes = $scopes;
+        $this->tags = $tags;
     }
 
     #[\Override]
     public function getAttributeName(): string
     {
-        return 'serviceScopeExclude';
+        return self::class;
     }
 }

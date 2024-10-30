@@ -10,6 +10,9 @@ use IfCastle\TypeDefinitions\NativeSerialization\AttributeNameInterface;
 #[Attribute(Attribute::TARGET_CLASS)]
 readonly class ServiceTags implements AttributeNameInterface
 {
+    /**
+     * @var  string[]
+     */
     public array $tags;
 
     public function __construct(string ...$tags)

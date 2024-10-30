@@ -6,6 +6,9 @@ namespace IfCastle\ServiceManager\RepositoryStorages;
 
 final readonly class RepositoryReaderByTagsBridge implements RepositoryReaderInterface
 {
+    /**
+     * @param array<string> $tags
+     */
     public function __construct(private RepositoryReaderByScopeInterface $repositoryReader, private array $tags) {}
 
     #[\Override]

@@ -11,6 +11,9 @@ use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 
 class DescriptorRepository implements DescriptorRepositoryInterface
 {
+    /**
+     * @var array<string, ServiceDescriptorInterface>|null
+     */
     protected array|null $serviceDescriptors = null;
 
     /**
@@ -32,8 +35,9 @@ class DescriptorRepository implements DescriptorRepositoryInterface
     public function findServiceClass(string $serviceName): string|null
     {
         $this->load();
-
-        return $this->serviceDescriptors[$serviceName]?->getClassName();
+        
+        $service                    = $this->serviceDescriptors[$serviceName] ?? null;
+        return $service?->getClassName();
     }
 
     #[\Override]

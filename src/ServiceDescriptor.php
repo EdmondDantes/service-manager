@@ -8,11 +8,21 @@ use IfCastle\DI\ConstructibleInterface;
 use IfCastle\ServiceManager\Exceptions\MethodNotFound;
 use IfCastle\TypeDefinitions\AttributesTrait;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
+use IfCastle\DI\DescriptorInterface;
 
 class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInterface
 {
     use AttributesTrait;
 
+    /**
+     * @param array<string, FunctionDescriptorInterface> $methods
+     * @param array<string, object>                      $attributes
+     * @param array<string>                              $includeTags
+     * @param array<string>                              $excludeTags
+     * @param DescriptorInterface[]                      $dependencies
+     * @param array<string, mixed>                       $bindings
+     * @param array<string, mixed>                       $config
+     */
     public function __construct(
         protected string $serviceName,
         protected string $className,
