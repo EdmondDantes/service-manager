@@ -154,24 +154,23 @@
         },
         {
             "name": "ifcastle/type-definitions",
-            "version": "v0.5.16",
+            "version": "v0.5.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/type-definitions.git",
-                "reference": "35d394dab550802bcddeabefcdfa186daddae881"
+                "reference": "fc5671292421b4c09f2238de53034d7aeb0f9e2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/type-definitions/zipball/35d394dab550802bcddeabefcdfa186daddae881",
-                "reference": "35d394dab550802bcddeabefcdfa186daddae881",
+                "url": "https://api.github.com/repos/EdmondDantes/type-definitions/zipball/fc5671292421b4c09f2238de53034d7aeb0f9e2d",
+                "reference": "fc5671292421b4c09f2238de53034d7aeb0f9e2d",
                 "shasum": ""
             },
             "require": {
                 "ifcastle/exceptions": "^5.0"
             },
             "require-dev": {
-                "amphp/php-cs-fixer-config": "^2.1",
-                "friendsofphp/php-cs-fixer": "^3.60",
+                "ifcastle/codestyle": "^0.1.7",
                 "phpunit/phpunit": "^11.2"
             },
             "type": "library",
@@ -196,9 +195,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/type-definitions/issues",
-                "source": "https://github.com/EdmondDantes/type-definitions/tree/v0.5.16"
+                "source": "https://github.com/EdmondDantes/type-definitions/tree/v0.5.17"
             },
-            "time": "2024-10-21T15:13:22+00:00"
+            "time": "2024-10-31T19:52:17+00:00"
         }
     ],
     "packages-dev": [
@@ -2429,16 +2428,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "6.1.1",
+            "version": "6.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "5ef523a49ae7a302b87b2102b72b1eda8918d686"
+                "reference": "43d129d6a0f81c78bee378b46688293eb7ea3739"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/5ef523a49ae7a302b87b2102b72b1eda8918d686",
-                "reference": "5ef523a49ae7a302b87b2102b72b1eda8918d686",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/43d129d6a0f81c78bee378b46688293eb7ea3739",
+                "reference": "43d129d6a0f81c78bee378b46688293eb7ea3739",
                 "shasum": ""
             },
             "require": {
@@ -2449,12 +2448,12 @@
                 "sebastian/exporter": "^6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.3"
+                "phpunit/phpunit": "^11.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "6.1-dev"
+                    "dev-main": "6.2-dev"
                 }
             },
             "autoload": {
@@ -2494,7 +2493,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
                 "security": "https://github.com/sebastianbergmann/comparator/security/policy",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/6.1.1"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/6.2.1"
             },
             "funding": [
                 {
@@ -2502,7 +2501,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-18T15:00:48+00:00"
+            "time": "2024-10-31T05:30:08+00:00"
         },
         {
             "name": "sebastian/complexity",

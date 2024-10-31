@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace IfCastle\ServiceManager;
 
 use IfCastle\ServiceManager\Exceptions\ServiceException;
-use IfCastle\ServiceManager\RepositoryStorages\RepositoryWriterInterface;
+use IfCastle\ServiceManager\RepositoryStorages\ServiceCollectionInterface;
+use IfCastle\ServiceManager\RepositoryStorages\ServiceCollectionWriterInterface;
 
 class ServiceManager implements ServiceManagerInterface
 {
     public function __construct(
-        protected readonly RepositoryWriterInterface $repositoryWriter
+        protected ServiceCollectionWriterInterface $repositoryWriter
     ) {}
 
     /**
@@ -22,13 +23,13 @@ class ServiceManager implements ServiceManagerInterface
         $this->throwIfNotFound($serviceDescriptor->getServiceName());
 
         $serviceConfig              = $serviceDescriptor->getServiceConfig();
-        $serviceConfig['class']     = $serviceDescriptor->getClassName();
-        $serviceConfig['isActive']  = $serviceDescriptor->isServiceActive();
-        $serviceConfig['tags']      = $serviceDescriptor->getIncludeTags();
-        $serviceConfig['excludeTags'] = $serviceDescriptor->getExcludeTags();
+        $serviceConfig[ServiceCollectionInterface::CLASS_NAME]      = $serviceDescriptor->getClassName();
+        $serviceConfig[ServiceCollectionInterface::IS_ACTIVE]       = $serviceDescriptor->isServiceActive();
+        $serviceConfig[ServiceCollectionInterface::TAGS]            = $serviceDescriptor->getIncludeTags();
+        $serviceConfig[ServiceCollectionInterface::EXCLUDE_TAGS]    = $serviceDescriptor->getExcludeTags();
+        $serviceConfig[ServiceCollectionInterface::DESCRIPTION]     = $serviceDescriptor->getDescription();
 
-
-        $this->repositoryWriter->addServiceConfig($serviceDescriptor->getServiceName(), $serviceConfig);
+        $this->repositoryWriter->addServiceConfig($serviceDescriptor->getPackageName(), $serviceDescriptor->getServiceName(), $serviceConfig);
         $this->repositoryWriter->saveRepository();
     }
 
@@ -36,10 +37,10 @@ class ServiceManager implements ServiceManagerInterface
      * @throws ServiceException
      */
     #[\Override]
-    public function uninstallService(string $serviceName): void
+    public function uninstallService(string $serviceName, string $packageName): void
     {
         $this->throwIfNotFound($serviceName);
-        $this->repositoryWriter->removeServiceConfig($serviceName);
+        $this->repositoryWriter->removeServiceConfig($serviceName, $packageName);
         $this->repositoryWriter->saveRepository();
     }
 
@@ -47,10 +48,10 @@ class ServiceManager implements ServiceManagerInterface
      * @throws ServiceException
      */
     #[\Override]
-    public function activateService(string $serviceName): void
+    public function activateService(string $packageName, string $serviceName, string $suffix): void
     {
         $this->throwIfNotFound($serviceName);
-        $this->repositoryWriter->activateService($serviceName);
+        $this->repositoryWriter->activateService($packageName, $serviceName, $suffix);
         $this->repositoryWriter->saveRepository();
     }
 
@@ -58,10 +59,10 @@ class ServiceManager implements ServiceManagerInterface
      * @throws ServiceException
      */
     #[\Override]
-    public function deactivateService(string $serviceName): void
+    public function deactivateService(string $packageName, string $serviceName, string $suffix): void
     {
         $this->throwIfNotFound($serviceName);
-        $this->repositoryWriter->deactivateService($serviceName);
+        $this->repositoryWriter->deactivateService($packageName, $serviceName, $suffix);
         $this->repositoryWriter->saveRepository();
     }
 
@@ -74,7 +75,7 @@ class ServiceManager implements ServiceManagerInterface
         $serviceConfig['tags']    = $serviceDescriptor->getIncludeTags();
         $serviceConfig['excludeTags'] = $serviceDescriptor->getExcludeTags();
 
-        $this->repositoryWriter->updateServiceConfig($serviceDescriptor->getServiceName(), $serviceConfig);
+        $this->repositoryWriter->updateServiceConfig($serviceDescriptor->getPackageName(), $serviceDescriptor->getServiceName(), $serviceConfig);
         $this->repositoryWriter->saveRepository();
     }
 

@@ -35,7 +35,8 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
         array            $attributes      = [],
         protected array  $includeTags     = [],
         protected array  $excludeTags     = [],
-        protected string $packageName     = ''
+        protected string $packageName     = '',
+        protected string $description     = ''
     ) {
         $this->attributes = $attributes;
     }
@@ -69,7 +70,13 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
     {
         return $this->className;
     }
-
+    
+    #[\Override]
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+    
     #[\Override]
     public function getDependencyName(): string
     {

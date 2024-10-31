@@ -8,6 +8,7 @@ use IfCastle\DI\AttributesToDescriptors;
 use IfCastle\DI\Binding;
 use IfCastle\DI\InjectableInterface;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
+use IfCastle\TypeDefinitions\PhpdocDescriptionParser;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Reader\ReflectionFunctionReader;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
@@ -47,7 +48,9 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             AttributesToDescriptors::readDescriptors($reflectionClass),
             $attributes,
             $include,
-            $exclude
+            $exclude,
+            '',
+            $this->extractDescription($reflectionClass)
         );
     }
 
@@ -186,5 +189,16 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         }
 
         return [$include, $exclude];
+    }
+    
+    protected function extractDescription(\ReflectionClass $reflectionClass): string
+    {
+        $comment                    = $reflectionClass->getDocComment();
+        
+        if ($comment === false) {
+            return '';
+        }
+        
+        return implode('\n', PhpdocDescriptionParser::getDescription($comment));
     }
 }

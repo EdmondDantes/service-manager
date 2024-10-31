@@ -13,7 +13,7 @@ namespace IfCastle\ServiceManager\RepositoryStorages;
  *
  * If a package defines MULTIPLE services, it then uses the `$serviceSuffix` parameter.
  */
-interface RepositoryWriterInterface extends RepositoryReaderInterface, RepositoryReaderByTagsInterface
+interface ServiceCollectionWriterInterface extends RepositoryReaderInterface, ServiceCollectionInterface
 {
     /**
      * Adds a new service configuration to the repository.
