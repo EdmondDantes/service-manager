@@ -36,8 +36,9 @@ and https://github.com/EdmondDantes/configuator-toml for TOML syntax.
 
 * ServiceTracerInterface
 
-**Task runner**:
+**Task runner and Workers**:
 
 * TaskRunnerInterface
+* WorkerExecutorInterface
 
 See [Architecture](docs/01-architecture.md) for more information.
