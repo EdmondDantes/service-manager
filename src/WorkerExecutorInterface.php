@@ -24,7 +24,7 @@ interface WorkerExecutorInterface
     public function executeCommandInWorkerAsync(
         string|CommandDescriptorInterface $service,
         ?string                            $command      = null,
-        array                             $parameters    = [],
+        array                              $parameters   = [],
         ?ExecutionContextInterface         $context      = null
     ): int;
 }
