@@ -131,7 +131,7 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
     {
         return $this->methods[$method] ?? throw new MethodNotFound($this->serviceName, $method);
     }
-    
+
     #[\Override]
     public function provideConfiguration(): array|null
     {

@@ -52,7 +52,7 @@ class ServiceLocatorTest extends TestCase
         $this->expectException(ServiceNotFound::class);
         $this->serviceLocator->getService('ServiceLibraryNotFound');
     }
-    
+
     public function testServiceConfig(): void
     {
         $result                     = $this->serviceLocator->getService('ServiceMailer');

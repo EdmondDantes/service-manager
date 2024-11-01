@@ -6,14 +6,12 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\DI\AttributesToDescriptors;
 use IfCastle\DI\Binding;
-use IfCastle\DI\FromConfig;
 use IfCastle\DI\InjectableInterface;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 use IfCastle\TypeDefinitions\PhpdocDescriptionParser;
 use IfCastle\TypeDefinitions\Reader\Exceptions\TypeUnresolved;
 use IfCastle\TypeDefinitions\Reader\ReflectionFunctionReader;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
-use IfCastle\TypeDefinitions\TypesEnum;
 
 final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBuilderInterface
 {

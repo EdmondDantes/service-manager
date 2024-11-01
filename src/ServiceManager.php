@@ -20,15 +20,7 @@ class ServiceManager implements ServiceManagerInterface
     #[\Override]
     public function installService(ServiceDescriptorInterface $serviceDescriptor): void
     {
-        $this->throwIfNotFound($serviceDescriptor->getServiceName());
-
-        $serviceConfig              = $serviceDescriptor->getServiceConfig();
-        $serviceConfig[ServiceCollectionInterface::CLASS_NAME]      = $serviceDescriptor->getClassName();
-        $serviceConfig[ServiceCollectionInterface::IS_ACTIVE]       = $serviceDescriptor->isServiceActive();
-        $serviceConfig[ServiceCollectionInterface::TAGS]            = $serviceDescriptor->getIncludeTags();
-        $serviceConfig[ServiceCollectionInterface::EXCLUDE_TAGS]    = $serviceDescriptor->getExcludeTags();
-        $serviceConfig[ServiceCollectionInterface::DESCRIPTION]     = $serviceDescriptor->getDescription();
-
+        $serviceConfig = $this->buildConfigByServiceDescriptor($serviceDescriptor);
         $this->repositoryWriter->addServiceConfig($serviceDescriptor->getPackageName(), $serviceDescriptor->getServiceName(), $serviceConfig);
         $this->repositoryWriter->saveRepository();
     }
@@ -39,29 +31,20 @@ class ServiceManager implements ServiceManagerInterface
     #[\Override]
     public function uninstallService(string $serviceName, string $packageName): void
     {
-        $this->throwIfNotFound($serviceName);
         $this->repositoryWriter->removeServiceConfig($serviceName, $packageName);
         $this->repositoryWriter->saveRepository();
     }
 
-    /**
-     * @throws ServiceException
-     */
     #[\Override]
     public function activateService(string $packageName, string $serviceName, string $suffix): void
     {
-        $this->throwIfNotFound($serviceName);
         $this->repositoryWriter->activateService($packageName, $serviceName, $suffix);
         $this->repositoryWriter->saveRepository();
     }
 
-    /**
-     * @throws ServiceException
-     */
     #[\Override]
     public function deactivateService(string $packageName, string $serviceName, string $suffix): void
     {
-        $this->throwIfNotFound($serviceName);
         $this->repositoryWriter->deactivateService($packageName, $serviceName, $suffix);
         $this->repositoryWriter->saveRepository();
     }
@@ -69,26 +52,24 @@ class ServiceManager implements ServiceManagerInterface
     #[\Override]
     public function updateServiceConfig(ServiceDescriptorInterface $serviceDescriptor): void
     {
-        $serviceConfig              = $serviceDescriptor->getServiceConfig();
-        $serviceConfig['class']     = $serviceDescriptor->getClassName();
-        $serviceConfig['isActive']  = $serviceDescriptor->isServiceActive();
-        $serviceConfig['tags']    = $serviceDescriptor->getIncludeTags();
-        $serviceConfig['excludeTags'] = $serviceDescriptor->getExcludeTags();
-
+        $serviceConfig = $this->buildConfigByServiceDescriptor($serviceDescriptor);
         $this->repositoryWriter->updateServiceConfig($serviceDescriptor->getPackageName(), $serviceDescriptor->getServiceName(), $serviceConfig);
         $this->repositoryWriter->saveRepository();
     }
 
     /**
+     * @return array<string, mixed>
      * @throws ServiceException
      */
-    protected function throwIfNotFound(string $serviceName): void
+    protected function buildConfigByServiceDescriptor(ServiceDescriptorInterface $serviceDescriptor): array
     {
-        if ($this->repositoryWriter->findServiceConfig($serviceName) !== null) {
-            throw new ServiceException([
-                'template'          => 'Service {service} already exists',
-                'service'           => $serviceName,
-            ]);
-        }
+        $serviceConfig              = $serviceDescriptor->getServiceConfig();
+        $serviceConfig[ServiceCollectionInterface::CLASS_NAME] = $serviceDescriptor->getClassName();
+        $serviceConfig[ServiceCollectionInterface::IS_ACTIVE]  = $serviceDescriptor->isServiceActive();
+        $serviceConfig[ServiceCollectionInterface::TAGS]    = $serviceDescriptor->getIncludeTags();
+        $serviceConfig[ServiceCollectionInterface::EXCLUDE_TAGS] = $serviceDescriptor->getExcludeTags();
+        $serviceConfig[ServiceCollectionInterface::DESCRIPTION] = $serviceDescriptor->getDescription();
+
+        return $serviceConfig;
     }
 }

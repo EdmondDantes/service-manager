@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace IfCastle\ServiceManager;
 
 /**
- * ## WorkerExecutorInterface
+ * ## WorkerExecutorInterface.
  *
  * This interface provides the ability to execute commands in worker processes.
  * It differs from the Command-bus interface of ExecutorInterface by explicitly specifying the execution method.
