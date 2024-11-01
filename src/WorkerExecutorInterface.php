@@ -26,5 +26,5 @@ interface WorkerExecutorInterface
         ?string                            $command      = null,
         array                              $parameters   = [],
         ?ExecutionContextInterface         $context      = null
-    ): int;
+    ): int|string;
 }
