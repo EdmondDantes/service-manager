@@ -10,6 +10,7 @@ interface ServiceDescriptorBuilderInterface
 {
     /**
      * @param array<string, mixed> $config
+     * @param array<string>        $resolveConfigByName
      *
      */
     public function buildServiceDescriptor(
@@ -20,6 +21,7 @@ interface ServiceDescriptorBuilderInterface
         array             $config       = [],
         bool $useOnlyServiceMethods     = true,
         bool $bindWithFirstInterface    = false,
-        bool $bindWithAllInterfaces     = false
+        bool $bindWithAllInterfaces     = false,
+        array $resolveConfigByName      = ['config', 'serviceConfig']
     ): ServiceDescriptorInterface;
 }

@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+/**
+ * ## ServiceLocatorInterface.
+ *
+ * Provides access to services.
+ *
+ * `ServiceLocatorInterface` uses the `DescriptorRepositoryInterface` to construct a service descriptor
+ * as a Dependency Injection object, which can then be resolved and subsequently
+ * loaded into memory.
+ */
 interface ServiceLocatorInterface extends DescriptorRepositoryInterface
 {
     /**

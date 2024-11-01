@@ -21,13 +21,19 @@ namespace IfCastle\ServiceManager\RepositoryStorages;
 interface ServiceCollectionInterface
 {
     public const string NAME        = '_service_name_';
+
     public const string IS_ACTIVE   = 'isActive';
+
     public const string PACKAGE     = 'package';
+
     public const string CLASS_NAME  = 'class';
+
     public const string TAGS        = 'tags';
+
     public const string EXCLUDE_TAGS = 'excludeTags';
+
     public const string DESCRIPTION = 'description';
-    
+
     /**
      * Returns services configuration with format:
      * [
@@ -36,6 +42,7 @@ interface ServiceCollectionInterface
      *      ],
      *   ],
      * ]
+     * @param string[] $tags
      *
      * @return array<string, array<string, array<mixed>>>
      */

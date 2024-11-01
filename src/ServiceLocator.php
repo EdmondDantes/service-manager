@@ -16,7 +16,7 @@ class ServiceLocator extends Container implements ServiceLocatorInterface
 {
     public function __construct(
         protected readonly DescriptorRepositoryInterface $descriptorRepository,
-        ?ContainerInterface                               $parentContainer = null,
+        ?ContainerInterface                              $parentContainer = null,
         bool                                             $isWeakParent = false
     ) {
         parent::__construct(new Resolver(), [], $parentContainer, $isWeakParent);

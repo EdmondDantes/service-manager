@@ -15,7 +15,7 @@ interface ServiceDescriptorInterface extends DependencyInterface, DescriptorInte
     public function getServiceName(): string;
 
     public function getClassName(): string;
-    
+
     public function getDescription(): string;
 
     /**

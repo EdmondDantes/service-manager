@@ -44,11 +44,11 @@ interface ServiceCollectionWriterInterface extends RepositoryReaderInterface, Se
      * @param ?array<string>        $excludeTags
      */
     public function updateServiceConfig(string     $packageName,
-                                        string     $serviceName,
-                                        array      $serviceConfig,
-                                        array|null $includeTags = null,
-                                        array|null $excludeTags = null,
-                                        string|null $serviceSuffix = null
+        string     $serviceName,
+        array      $serviceConfig,
+        array|null $includeTags = null,
+        array|null $excludeTags = null,
+        string|null $serviceSuffix = null
     ): void;
 
     public function activateService(string $packageName, string $serviceName, string $serviceSuffix): void;
@@ -62,11 +62,11 @@ interface ServiceCollectionWriterInterface extends RepositoryReaderInterface, Se
      * @param ?array<string> $excludeTags
      */
     public function changeServiceTags(
-                                      string $packageName,
-                                      string $serviceName,
-                                      string $serviceSuffix,
-                                      array|null $includeTags = null,
-                                      array|null $excludeTags = null
+        string $packageName,
+        string $serviceName,
+        string $serviceSuffix,
+        array|null $includeTags = null,
+        array|null $excludeTags = null
     ): void;
 
     public function saveRepository(): void;

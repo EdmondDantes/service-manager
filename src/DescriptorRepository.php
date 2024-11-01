@@ -7,6 +7,7 @@ namespace IfCastle\ServiceManager;
 use IfCastle\ServiceManager\Exceptions\ServiceConfigException;
 use IfCastle\ServiceManager\Exceptions\ServiceNotFound;
 use IfCastle\ServiceManager\RepositoryStorages\RepositoryReaderInterface;
+use IfCastle\ServiceManager\RepositoryStorages\ServiceCollectionInterface;
 use IfCastle\TypeDefinitions\Resolver\ResolverInterface;
 
 class DescriptorRepository implements DescriptorRepositoryInterface
@@ -19,8 +20,9 @@ class DescriptorRepository implements DescriptorRepositoryInterface
     /**
      * If $useOnlyServiceMethods is set to true,
      * only methods with @ServiceMethod attribute will be considered as service methods.
-     * In other case all public methods will be considered as service methods.
+     * In another case all public methods will be considered as service methods.
      *
+     * @param array<string> $resolveConfigByName
      */
     public function __construct(
         protected readonly RepositoryReaderInterface         $repositoryReader,
@@ -28,7 +30,8 @@ class DescriptorRepository implements DescriptorRepositoryInterface
         protected readonly ServiceDescriptorBuilderInterface $descriptorBuilder,
         protected readonly bool                              $useOnlyServiceMethods  = true,
         protected readonly bool                              $bindWithFirstInterface = false,
-        protected readonly bool                              $bindWithAllInterfaces  = false
+        protected readonly bool                              $bindWithAllInterfaces  = false,
+        protected readonly array                             $resolveConfigByName    = ['config', 'serviceConfig']
     ) {}
 
     #[\Override]
@@ -77,26 +80,27 @@ class DescriptorRepository implements DescriptorRepositoryInterface
 
         foreach ($this->repositoryReader->getServicesConfig() as $serviceName => $serviceConfig) {
 
-            if (false === \array_key_exists('class', $serviceConfig)) {
+            if (false === \array_key_exists(ServiceCollectionInterface::CLASS_NAME, $serviceConfig)) {
                 throw new ServiceConfigException([
                     'template'      => 'Service {serviceName} has no class defined',
                     'serviceName'   => $serviceName,
                 ]);
             }
 
-            if (empty($serviceConfig['isActive'])) {
+            if (empty($serviceConfig[ServiceCollectionInterface::IS_ACTIVE])) {
                 continue;
             }
 
             $serviceDescriptors[$serviceName] = $this->descriptorBuilder->buildServiceDescriptor(
-                $serviceConfig['class'],
+                $serviceConfig[ServiceCollectionInterface::CLASS_NAME],
                 $serviceName,
                 $this->resolver,
                 true,
                 $serviceConfig,
                 $this->useOnlyServiceMethods,
                 $this->bindWithFirstInterface,
-                $this->bindWithAllInterfaces
+                $this->bindWithAllInterfaces,
+                $this->resolveConfigByName
             );
         }
 
