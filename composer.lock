@@ -4,25 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cbc04e22fd3cbfdca06827c32b3c9cc5",
+    "content-hash": "7fc8ce52da7920268a38ed22aff97965",
     "packages": [
         {
             "name": "ifcastle/design-patterns",
-            "version": "v0.2.28",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/design-patterns.git",
-                "reference": "09c0cc067839bb2180074edfd5c12fa40236d837"
+                "reference": "82f58de9ff41b3d90e4af170f7041f8069487140"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/design-patterns/zipball/09c0cc067839bb2180074edfd5c12fa40236d837",
-                "reference": "09c0cc067839bb2180074edfd5c12fa40236d837",
+                "url": "https://api.github.com/repos/EdmondDantes/design-patterns/zipball/82f58de9ff41b3d90e4af170f7041f8069487140",
+                "reference": "82f58de9ff41b3d90e4af170f7041f8069487140",
                 "shasum": ""
             },
             "require": {
-                "ifcastle/di": "^0.6.0",
-                "ifcastle/exceptions": "^5.0"
+                "ifcastle/di": "^0.7.0",
+                "ifcastle/exceptions": "^5.1"
             },
             "require-dev": {
                 "amphp/php-cs-fixer-config": "^2.1",
@@ -47,22 +47,22 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/design-patterns/issues",
-                "source": "https://github.com/EdmondDantes/design-patterns/tree/v0.2.28"
+                "source": "https://github.com/EdmondDantes/design-patterns/tree/v0.3.0"
             },
-            "time": "2024-10-20T12:42:08+00:00"
+            "time": "2024-11-01T13:55:24+00:00"
         },
         {
             "name": "ifcastle/di",
-            "version": "v0.6.10",
+            "version": "v0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/di.git",
-                "reference": "b1620276f7b8c56ad6a1c2089ae7f6f1d97940e7"
+                "reference": "07b73bee9e15824156cdef254dcd8dd9fd815b87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/di/zipball/b1620276f7b8c56ad6a1c2089ae7f6f1d97940e7",
-                "reference": "b1620276f7b8c56ad6a1c2089ae7f6f1d97940e7",
+                "url": "https://api.github.com/repos/EdmondDantes/di/zipball/07b73bee9e15824156cdef254dcd8dd9fd815b87",
+                "reference": "07b73bee9e15824156cdef254dcd8dd9fd815b87",
                 "shasum": ""
             },
             "require": {
@@ -101,9 +101,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/di/issues",
-                "source": "https://github.com/EdmondDantes/di/tree/v0.6.10"
+                "source": "https://github.com/EdmondDantes/di/tree/v0.7.0"
             },
-            "time": "2024-11-01T07:19:13+00:00"
+            "time": "2024-11-01T13:53:10+00:00"
         },
         {
             "name": "ifcastle/exceptions",

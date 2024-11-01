@@ -9,7 +9,7 @@ use IfCastle\DI\ContainerInterface;
 use IfCastle\DI\Dependency;
 use IfCastle\DI\DependencyInterface;
 use IfCastle\DI\DescriptorInterface;
-use IfCastle\DI\FactoryInterface;
+use IfCastle\DI\ProviderInterface;
 use IfCastle\Exceptions\LogicalException;
 use IfCastle\TypeDefinitions\TypesEnum;
 
@@ -19,7 +19,7 @@ use IfCastle\TypeDefinitions\TypesEnum;
  * with the service configuration from the global `service registry`.
  */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_PARAMETER)]
-final class ServiceConfig extends Dependency implements FactoryInterface
+final class FromServiceConfig extends Dependency implements ProviderInterface
 {
     public function __construct(
         string            $key = '',
@@ -30,7 +30,7 @@ final class ServiceConfig extends Dependency implements FactoryInterface
     }
 
     #[\Override]
-    public function getFactory(): FactoryInterface|null
+    public function getProvider(): ProviderInterface|null
     {
         return $this;
     }
@@ -39,7 +39,7 @@ final class ServiceConfig extends Dependency implements FactoryInterface
      * @throws LogicalException
      */
     #[\Override]
-    public function create(ContainerInterface   $container,
+    public function provide(ContainerInterface   $container,
         DescriptorInterface  $descriptor,
         ?DependencyInterface $forDependency = null
     ): mixed {

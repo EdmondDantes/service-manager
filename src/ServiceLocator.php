@@ -45,11 +45,21 @@ class ServiceLocator extends Container implements ServiceLocatorInterface
     {
         return $this->tryLoadService($serviceName);
     }
-
+    
+    /**
+     * @throws ServiceNotFound
+     * @throws \Throwable
+     */
     #[\Override]
     public function getService(string $serviceName): object
     {
-        return $this->tryLoadService($serviceName) ?? throw new ServiceNotFound($serviceName);
+        $result                     = $this->tryLoadService($serviceName) ?? throw new ServiceNotFound($serviceName);
+        
+        if($result instanceof \Throwable) {
+            throw $result;
+        }
+        
+        return $result;
     }
 
     #[\Override]

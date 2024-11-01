@@ -21,8 +21,6 @@ class DescriptorRepository implements DescriptorRepositoryInterface
      * If $useOnlyServiceMethods is set to true,
      * only methods with @ServiceMethod attribute will be considered as service methods.
      * In another case all public methods will be considered as service methods.
-     *
-     * @param array<string> $resolveConfigByName
      */
     public function __construct(
         protected readonly RepositoryReaderInterface         $repositoryReader,
@@ -30,8 +28,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
         protected readonly ServiceDescriptorBuilderInterface $descriptorBuilder,
         protected readonly bool                              $useOnlyServiceMethods  = true,
         protected readonly bool                              $bindWithFirstInterface = false,
-        protected readonly bool                              $bindWithAllInterfaces  = false,
-        protected readonly array                             $resolveConfigByName    = ['config', 'serviceConfig']
+        protected readonly bool                              $bindWithAllInterfaces  = false
     ) {}
 
     #[\Override]
@@ -99,8 +96,7 @@ class DescriptorRepository implements DescriptorRepositoryInterface
                 $serviceConfig,
                 $this->useOnlyServiceMethods,
                 $this->bindWithFirstInterface,
-                $this->bindWithAllInterfaces,
-                $this->resolveConfigByName
+                $this->bindWithAllInterfaces
             );
         }
 

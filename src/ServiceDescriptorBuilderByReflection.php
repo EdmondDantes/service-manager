@@ -6,6 +6,7 @@ namespace IfCastle\ServiceManager;
 
 use IfCastle\DI\AttributesToDescriptors;
 use IfCastle\DI\Binding;
+use IfCastle\DI\FromConfig;
 use IfCastle\DI\InjectableInterface;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 use IfCastle\TypeDefinitions\PhpdocDescriptionParser;
@@ -29,8 +30,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
         array $config = [],
         bool $useOnlyServiceMethods = true,
         bool $bindWithFirstInterface = false,
-        bool $bindWithAllInterfaces = false,
-        array $resolveConfigByName = ['config', 'serviceConfig']
+        bool $bindWithAllInterfaces = false
     ): ServiceDescriptorInterface {
         $reflectionClass            = new \ReflectionClass($service);
         $attributes                 = $this->buildAttributes($reflectionClass->getAttributes());
@@ -47,7 +47,7 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
             $config,
             $useConstructor,
             $bindings,
-            $this->buildDependencyDescriptors($reflectionClass, $resolveConfigByName),
+            $this->buildDependencyDescriptors($reflectionClass),
             $attributes,
             $include,
             $exclude,
@@ -195,38 +195,13 @@ final class ServiceDescriptorBuilderByReflection implements ServiceDescriptorBui
 
     /**
      * @param \ReflectionClass<object> $reflectionClass
-     * @param array<string> $resolveConfigByName
      *
      * @return array<string, \IfCastle\DI\DescriptorInterface>
      * @throws \ReflectionException
      */
-    protected function buildDependencyDescriptors(\ReflectionClass $reflectionClass, array $resolveConfigByName): array
+    protected function buildDependencyDescriptors(\ReflectionClass $reflectionClass): array
     {
-        $descriptors                = AttributesToDescriptors::readDescriptors($reflectionClass);
-
-        if ($resolveConfigByName === []) {
-            return $descriptors;
-        }
-
-        // If we already have a service configuration, we do not need to resolve it again.
-        foreach ($descriptors as $descriptor) {
-            if ($descriptor instanceof ServiceConfig) {
-                return $descriptors;
-            }
-        }
-
-        // Replace the one descriptor with specific name with the service configuration descriptor.
-        foreach ($descriptors as $index => $descriptor) {
-            if (\in_array($descriptor->getDependencyKey(), $resolveConfigByName, true)
-               && $descriptor->getDependencyType() === TypesEnum::ARRAY->value
-               && $descriptor->getFactory() === null) {
-                $descriptors[$index] = new ServiceConfig(
-                    $descriptor->getDependencyKey(), $descriptor->isRequired(), $descriptor->getDependencyProperty()
-                );
-            }
-        }
-
-        return $descriptors;
+        return AttributesToDescriptors::readDescriptors($reflectionClass);
     }
 
     /**
