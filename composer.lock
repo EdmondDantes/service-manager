@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fc8ce52da7920268a38ed22aff97965",
+    "content-hash": "b0b9b4e977ebc10bbef8b03205b071c0",
     "packages": [
         {
             "name": "ifcastle/design-patterns",
@@ -53,16 +53,16 @@
         },
         {
             "name": "ifcastle/di",
-            "version": "v0.7.0",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/di.git",
-                "reference": "07b73bee9e15824156cdef254dcd8dd9fd815b87"
+                "reference": "8d5e3c36f2d51641d3071a0479d0ed794697c89e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/di/zipball/07b73bee9e15824156cdef254dcd8dd9fd815b87",
-                "reference": "07b73bee9e15824156cdef254dcd8dd9fd815b87",
+                "url": "https://api.github.com/repos/EdmondDantes/di/zipball/8d5e3c36f2d51641d3071a0479d0ed794697c89e",
+                "reference": "8d5e3c36f2d51641d3071a0479d0ed794697c89e",
                 "shasum": ""
             },
             "require": {
@@ -101,9 +101,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/di/issues",
-                "source": "https://github.com/EdmondDantes/di/tree/v0.7.0"
+                "source": "https://github.com/EdmondDantes/di/tree/v0.7.1"
             },
-            "time": "2024-11-01T13:53:10+00:00"
+            "time": "2024-11-01T17:03:46+00:00"
         },
         {
             "name": "ifcastle/exceptions",

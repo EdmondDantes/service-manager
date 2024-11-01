@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace IfCastle\ServiceManager;
 
+use IfCastle\DI\ConfigurationProviderInterface;
 use IfCastle\DI\ConstructibleInterface;
 use IfCastle\DI\DescriptorInterface;
 use IfCastle\ServiceManager\Exceptions\MethodNotFound;
 use IfCastle\TypeDefinitions\AttributesTrait;
 use IfCastle\TypeDefinitions\FunctionDescriptorInterface;
 
-class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInterface
+class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInterface, ConfigurationProviderInterface
 {
     use AttributesTrait;
 
@@ -129,5 +130,11 @@ class ServiceDescriptor implements ServiceDescriptorInterface, ConstructibleInte
     public function getServiceMethod(string $method): FunctionDescriptorInterface
     {
         return $this->methods[$method] ?? throw new MethodNotFound($this->serviceName, $method);
+    }
+    
+    #[\Override]
+    public function provideConfiguration(): array|null
+    {
+        return $this->config;
     }
 }
