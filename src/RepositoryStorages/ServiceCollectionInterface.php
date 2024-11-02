@@ -50,6 +50,7 @@ interface ServiceCollectionInterface
         string|null $serviceName = null,
         string|null $packageName = null,
         string|null $suffix = null,
+        bool|null   $isActive = null,
         array       $tags = []
     ): array;
 }
