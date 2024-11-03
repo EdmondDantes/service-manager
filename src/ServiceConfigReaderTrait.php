@@ -15,8 +15,7 @@ trait ServiceConfigReaderTrait
      */
     protected array $data           = [];
 
-    protected bool $isLoaded        = false;
-
+    #[\Override]
     public function getServiceCollection(
         string|null $serviceName = null,
         string|null $packageName = null,
@@ -24,10 +23,7 @@ trait ServiceConfigReaderTrait
         bool|null   $isActive = null,
         array       $tags = []
     ): array {
-        if ($this->isLoaded === false) {
-            $this->load();
-            $this->normalizeDataAfterLoad();
-        }
+        $this->load();
 
         if ($serviceName === null && $packageName === null && $suffix === null && $isActive === null && $tags === []) {
             return $this->data;
@@ -59,12 +55,10 @@ trait ServiceConfigReaderTrait
         return $collection;
     }
 
+    #[\Override]
     public function getServicesConfig(): array
     {
-        if ($this->isLoaded === false) {
-            $this->load();
-            $this->normalizeDataAfterLoad();
-        }
+        $this->load();
 
         $collection                 = [];
 
@@ -80,12 +74,10 @@ trait ServiceConfigReaderTrait
         return $collection;
     }
 
+    #[\Override]
     public function findServiceConfig(string $serviceName): array|null
     {
-        if ($this->isLoaded === false) {
-            $this->load();
-            $this->normalizeDataAfterLoad();
-        }
+        $this->load();
 
         foreach ($this->data[$serviceName] ?? [] as $serviceConfig) {
             if (($serviceConfig[ServiceCollectionInterface::IS_ACTIVE] ?? false) === true) {
@@ -94,16 +86,5 @@ trait ServiceConfigReaderTrait
         }
 
         return null;
-    }
-
-    protected function normalizeDataAfterLoad(): void
-    {
-        $this->isLoaded             = true;
-
-        foreach ($this->data as $service => $configs) {
-            if (\array_key_exists(ServiceCollectionInterface::NAME, $configs)) {
-                $this->data[$service] = [$configs];
-            }
-        }
     }
 }
