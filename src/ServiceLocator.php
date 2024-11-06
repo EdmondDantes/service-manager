@@ -126,7 +126,8 @@ class ServiceLocator extends Container implements ServiceLocatorInterface
     #[\Override]
     public function findDependency(
         DescriptorInterface|string $name,
-        ?DependencyInterface        $forDependency = null
+        ?DependencyInterface        $forDependency = null,
+        bool                        $returnThrowable = false
     ): mixed {
         if (false === \array_key_exists($name, $this->container)) {
             $serviceDescriptor      = $this->descriptorRepository->findServiceDescriptor($name);
