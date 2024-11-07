@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "ifcastle/design-patterns",
-            "version": "v0.3.2",
+            "version": "v0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/design-patterns.git",
-                "reference": "6d99cd8c4b56d439b03774b4b3a3854ddde54671"
+                "reference": "27610be9e2a98c096ce7e104b63fb2978bf4e15a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/design-patterns/zipball/6d99cd8c4b56d439b03774b4b3a3854ddde54671",
-                "reference": "6d99cd8c4b56d439b03774b4b3a3854ddde54671",
+                "url": "https://api.github.com/repos/EdmondDantes/design-patterns/zipball/27610be9e2a98c096ce7e104b63fb2978bf4e15a",
+                "reference": "27610be9e2a98c096ce7e104b63fb2978bf4e15a",
                 "shasum": ""
             },
             "require": {
@@ -49,9 +49,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/design-patterns/issues",
-                "source": "https://github.com/EdmondDantes/design-patterns/tree/v0.3.2"
+                "source": "https://github.com/EdmondDantes/design-patterns/tree/v0.3.5"
             },
-            "time": "2024-11-06T11:52:43+00:00"
+            "time": "2024-11-07T17:46:19+00:00"
         },
         {
             "name": "ifcastle/di",
@@ -1037,16 +1037,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.7",
+            "version": "1.12.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "dc2b9976bd8b0f84ec9b0e50cc35378551de7af0"
+                "reference": "f6a60a4d66142b8156c9da923f1972657bc4748c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/dc2b9976bd8b0f84ec9b0e50cc35378551de7af0",
-                "reference": "dc2b9976bd8b0f84ec9b0e50cc35378551de7af0",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f6a60a4d66142b8156c9da923f1972657bc4748c",
+                "reference": "f6a60a4d66142b8156c9da923f1972657bc4748c",
                 "shasum": ""
             },
             "require": {
@@ -1091,7 +1091,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-18T11:12:07+00:00"
+            "time": "2024-11-06T19:06:49+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
