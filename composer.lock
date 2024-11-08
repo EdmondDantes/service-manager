@@ -156,16 +156,16 @@
         },
         {
             "name": "ifcastle/type-definitions",
-            "version": "v0.5.18",
+            "version": "v0.5.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EdmondDantes/type-definitions.git",
-                "reference": "fd98481dae648885554b2d5d6b3a31a49ab88718"
+                "reference": "4d2c65fa40acd1ef4cca7f0f313dba44671d5471"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EdmondDantes/type-definitions/zipball/fd98481dae648885554b2d5d6b3a31a49ab88718",
-                "reference": "fd98481dae648885554b2d5d6b3a31a49ab88718",
+                "url": "https://api.github.com/repos/EdmondDantes/type-definitions/zipball/4d2c65fa40acd1ef4cca7f0f313dba44671d5471",
+                "reference": "4d2c65fa40acd1ef4cca7f0f313dba44671d5471",
                 "shasum": ""
             },
             "require": {
@@ -197,9 +197,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EdmondDantes/type-definitions/issues",
-                "source": "https://github.com/EdmondDantes/type-definitions/tree/v0.5.18"
+                "source": "https://github.com/EdmondDantes/type-definitions/tree/v0.5.19"
             },
-            "time": "2024-11-08T11:47:58+00:00"
+            "time": "2024-11-08T12:28:12+00:00"
         }
     ],
     "packages-dev": [
