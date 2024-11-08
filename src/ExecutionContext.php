@@ -36,25 +36,47 @@ class ExecutionContext extends KeyValueContext implements ExecutionContextInterf
         return $result;
     }
     
+    /**
+     * @throws UnSerializeException
+     */
     #[\Override]
     public static function fromArray(array $array, ?ArraySerializableValidatorInterface $validator = null): static
     {
-        $context = [];
-        $stack = [];
+        $context                    = [];
+        $stack                      = [];
+        $iterator                   = new \ArrayIterator($array);
+        $iterator->rewind();
         
         while (true) {
             
-            foreach ($array as $key => $value) {
-                if (is_array($value)) {
-                    $context[$key] = [];
-                    $stack[] = [$value, &$context];
+            while ($iterator->valid()) {
+                $value              = $iterator->current();
+                $key                = $iterator->key();
+                
+                if(is_array($value)) {
                     
+                    $iterator->next();
+                    $context[$key]  = [];
+                    $stack[]        = [$iterator, &$context];
+                    
+                    $context        = &$context[$key];
+                    $iterator       = new \ArrayIterator($value);
+                    $iterator->rewind();
+                    
+                    break;
                 } else if(is_scalar($value) || is_null($value)) {
-                    $context[$key] = $value;
+                    $context[$key]  = $value;
+                    $iterator->next();
                 } else {
                     throw new UnSerializeException('The value of the context should be scalar', 'array', $value);
                 }
             }
+
+            if($stack === []) {
+                break;
+            }
+            
+            [$iterator, &$context]   = array_pop($stack);
         }
         
         return new static($context);
