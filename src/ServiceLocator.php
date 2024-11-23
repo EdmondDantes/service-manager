@@ -109,8 +109,10 @@ class ServiceLocator extends Container implements ServiceLocatorInterface
     #[\Override]
     public function resolveDependency(
         DescriptorInterface|string $name,
-        ?DependencyInterface        $forDependency   = null,
-        int                        $stackOffset     = 0
+        ?DependencyInterface        $forDependency  = null,
+        int                         $stackOffset    = 0,
+        array                       $resolvingKeys  = [],
+        bool                        $allowLazy      = true,
     ): mixed {
         if (false === \array_key_exists($name, $this->container)) {
             $serviceDescriptor      = $this->descriptorRepository->findServiceDescriptor($name);
@@ -126,8 +128,10 @@ class ServiceLocator extends Container implements ServiceLocatorInterface
     #[\Override]
     public function findDependency(
         DescriptorInterface|string $name,
-        ?DependencyInterface        $forDependency = null,
-        bool                        $returnThrowable = false
+        ?DependencyInterface        $forDependency          = null,
+        bool                        $returnThrowable        = false,
+        array                           $resolvingKeys      = [],
+        bool                            $allowLazy          = true,
     ): mixed {
         if (false === \array_key_exists($name, $this->container)) {
             $serviceDescriptor      = $this->descriptorRepository->findServiceDescriptor($name);
